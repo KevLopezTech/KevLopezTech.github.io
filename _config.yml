@@ -45,7 +45,7 @@ social:
     url: https://github.com/KevLopezTech/
 
 # Postal address (add as many lines as necessary)
- location:
+ address:
   - line: Atlanta, GA
   - line: (Remote)
 
