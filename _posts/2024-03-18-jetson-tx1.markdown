@@ -3,7 +3,7 @@ layout: default
 modal-id: 1
 order: 1
 date: 2024-03-18
-img: cabin.png
+img: nvidialogo.png
 alt: image-alt
 project-date: 2018
 client: Georgia State University
