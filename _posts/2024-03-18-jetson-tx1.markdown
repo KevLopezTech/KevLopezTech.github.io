@@ -8,5 +8,5 @@ alt: image-alt
 project-date: 2018
 client: Georgia State University
 category: Robotics
-description: Jetson TX1 Project //Use this area of the page to describe your project. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Mollitia neque assumenda ipsam nihil, molestias magnam, recusandae quos quis inventore quisquam velit asperiores, vitae? Reprehenderit soluta, eos quod consequuntur itaque. Nam.
+description: This project's purpose was to create a self automated robot using Nvidia materials, hardware, tools, and lectures and integrating it with an Arduino controller. The goals set for this project include Computer Vision and Self Driving. This was done via Camera, Sonar, Accelerometer, Gyroscope, and Motors. The robot was able to detect color and shape combinations on a sheet of paper, determine distance and detect objects for obstacle avoidance, move along a designated path, and estimate position in relation to the environment for localization.
 ---
