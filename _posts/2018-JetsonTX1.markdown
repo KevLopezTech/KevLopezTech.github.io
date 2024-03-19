@@ -2,7 +2,7 @@
 layout: default
 modal-id: 1
 order: 1
-date: 2014-07-18
+date: 2018
 img: cabin.png
 alt: image-alt
 project-date: 2018
