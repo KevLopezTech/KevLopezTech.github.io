@@ -2,7 +2,7 @@
 layout: default
 modal-id: 6
 date: 2024-03-23
-img: AILogo.png
+img: NLPLogo.png
 alt: image-alt
 project-date: 2018
 client: Georgia State University
