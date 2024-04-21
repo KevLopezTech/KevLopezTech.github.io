@@ -3,7 +3,7 @@ layout: default
 modal-id: 1
 order: 1
 date: 2024-03-18
-img: nvidialogo.png
+img: Jetson TX1.png
 alt: image-alt
 project-date: 2018
 client: Georgia State University
