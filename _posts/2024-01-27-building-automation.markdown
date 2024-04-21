@@ -1,7 +1,7 @@
 ---
 layout: default
 modal-id: 7
-date: 2024-03-23
+date: 2024-01-27
 img: Building Automation Systems.png
 alt: image-alt
 project-date: 2024
