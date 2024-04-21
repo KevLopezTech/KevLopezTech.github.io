@@ -2,7 +2,7 @@
 layout: default
 modal-id: 7
 date: 2024-03-23
-img: BASLogo.png
+img: Building Automation Systems.png
 alt: image-alt
 project-date: 2024
 client: Control Concepts
