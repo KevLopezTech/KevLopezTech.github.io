@@ -1,7 +1,7 @@
 ---
 layout: default
 modal-id: 5
-date: 2014-2018
+date: 2024-01-31
 img: Bolts & Bones.png
 alt: image-alt
 project-date: 2017
