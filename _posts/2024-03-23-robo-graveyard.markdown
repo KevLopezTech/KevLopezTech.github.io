@@ -2,7 +2,7 @@
 layout: default
 modal-id: 5
 date: 2024-03-23
-img: RoboGraveyard.png
+img: Bolts & Bones.png
 alt: image-alt
 project-date: 2017
 client: Georgia State
