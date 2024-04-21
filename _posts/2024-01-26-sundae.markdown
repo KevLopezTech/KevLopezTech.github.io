@@ -7,5 +7,5 @@ alt: image-alt
 project-date: 2018
 client: Georgia State University
 category: Artificial Intelligence
-description: Sundae is a chatbot created from my Natural Language Processing research.
+description: Sundae is a personal assistant AI project with extensive research in Neural Networks and Natural Language Processing and attempting to implement those algorithms into Sundae's intelligence.
 ---
