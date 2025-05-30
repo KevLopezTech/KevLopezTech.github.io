@@ -1,21 +1,23 @@
 import { getSortedProjectsData } from '@/lib/projects';
+import ProjectCard from '@/components/ProjectCard'; // Import our reusable card
 import Link from 'next/link';
 
-export default function ProjectsPage() {
-    const projects = getSortedProjectsData();
+export default function AllProjectsPage() {
+    // This Server Component fetches all project data directly
+    const allProjects = getSortedProjectsData();
 
     return (
         <main className="p-4 sm:p-8 bg-gray-900 text-white min-h-screen">
             <div className="max-w-4xl mx-auto">
-                <h1 className="text-4xl font-bold mb-8">All Projects</h1>
+                <h1 className="text-4xl font-bold mb-8">All My Work</h1>
+                <p className="text-gray-400 mb-8">
+                    A collection of my projects. You can also browse by category in the navigation.
+                </p>
+
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    {projects.map(({ slug, title, description }: any) => (
-                        <Link href={`/project/${slug}`} key={slug}>
-                            <div className="bg-gray-800 p-6 rounded-lg border border-gray-700 hover:border-cyan-400 transition-all duration-300 h-full">
-                                <h2 className="text-2xl font-semibold mb-2">{title}</h2>
-                                <p className="text-gray-400">{description}</p>
-                            </div>
-                        </Link>
+                    {/* We map over all projects and use the same card component */}
+                    {allProjects.map((project: any) => (
+                        <ProjectCard key={project.slug} project={project} />
                     ))}
                 </div>
             </div>

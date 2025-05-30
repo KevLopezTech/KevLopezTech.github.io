@@ -1,3 +1,12 @@
+export type ProjectFrontmatter = {
+    title: string;
+    description: string;
+    publishDate: string;
+    tags: string[];
+    heroImage?: string;
+    gallery?: string[];
+};
+
 import fs from 'fs';
 import path from 'path';
 import matter from 'gray-matter';
@@ -6,7 +15,8 @@ import html from 'remark-html';
 
 const projectsDirectory = path.join(process.cwd(), 'content/projects');
 
-// Function to get all projects, sorted by date
+// This is the main function our pages will use for now.
+// It reads all project files and returns their data, sorted by date.
 export function getSortedProjectsData() {
     const categories = fs.readdirSync(projectsDirectory);
     let allProjectsData: any[] = [];
@@ -40,7 +50,7 @@ export function getSortedProjectsData() {
     });
 }
 
-// Function to get all possible slugs for static path generation
+// We will need these two functions for the individual project detail pages later.
 export function getAllProjectSlugs() {
     const categories = fs.readdirSync(projectsDirectory);
     let paths: { params: { slug: string[] } }[] = [];
@@ -62,24 +72,34 @@ export function getAllProjectSlugs() {
     return paths;
 }
 
-// Function to get a single project's data, including rendered HTML content
-export async function getProjectData(slug: string) {
+export async function getProjectData(slug: string): Promise<{
+    slug: string;
+    contentHtml: string;
+} & ProjectFrontmatter> { // <-- MODIFIED: Add ProjectFrontmatter to the return type
     const fullPath = path.join(projectsDirectory, `${slug}.md`);
     const fileContents = fs.readFileSync(fullPath, 'utf8');
-
-    // Use gray-matter to parse the post metadata section
     const matterResult = matter(fileContents);
 
-    // Use remark to convert markdown into HTML string
     const processedContent = await remark()
         .use(html)
         .process(matterResult.content);
     const contentHtml = processedContent.toString();
 
-    // Combine the data with the slug and contentHtml
+    // Assert the type of matterResult.data to our defined shape
+    const frontmatter = matterResult.data as ProjectFrontmatter;
+
     return {
         slug,
         contentHtml,
-        ...matterResult.data,
+        ...frontmatter, // Spread the typed frontmatter
     };
+}
+
+export async function getProjectPageDetails(slugArray: string[]) {
+    // Reconstruct the slug from the URL parts inside this function
+    const slug = slugArray.join('/');
+
+    // Call the existing getProjectData function
+    const projectData = await getProjectData(slug);
+    return projectData;
 }
