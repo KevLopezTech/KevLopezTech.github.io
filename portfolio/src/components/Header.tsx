@@ -71,7 +71,7 @@ export default function Header() {
             <button
               onClick={toggleMobileMenu}
               aria-label="Toggle menu"
-              className="text-gray-300 hover:text-cyan-400 focus:outline-none focus:text-cyan-400 transition-colors"
+              className="text-cyan-400 hover:text-cyan-300 focus:outline-none focus:text-cyan-400 transition-colors"
             >
               {isMobileMenuOpen ? <FiX size={28} /> : <FiMenu size={28} />}
             </button>
@@ -91,7 +91,7 @@ export default function Header() {
                 className={`text-xl py-2 ${
                   pathname === link.href || (link.href.startsWith("/projects") && pathname.startsWith("/projects"))
                     ? 'text-cyan-400 font-semibold'
-                    : 'text-gray-200 hover:text-cyan-300 transition-colors'
+                    : 'text-cyan-300 hover:text-cyan-200 transition-colors'
                 }`}
               >
                 {link.name}

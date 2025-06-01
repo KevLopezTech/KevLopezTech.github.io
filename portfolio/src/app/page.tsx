@@ -2,16 +2,18 @@ import React from 'react'; // Added for good measure with JSX
 import Link from 'next/link';
 import Image from 'next/image';
 import { getSortedProjectsData } from '@/lib/projects';
+import { getHeroContent, type HeroContent } from "@/lib/homepage";
 import ProjectCard from '@/components/ProjectCard';
 import { skillCategories } from '@/data/skills'; // Ensure this points to your skills.tsx file
 
-import { FaReact, FaPython } from 'react-icons/fa';
+import { FaReact, FaPython, FaLinkedin, FaGithub, FaEnvelope } from 'react-icons/fa';
 import { SiNextdotjs, SiTypescript } from 'react-icons/si';
 import { AiOutlineHighlight } from 'react-icons/ai';
 
 export default function HomePage() {
     const allProjects = getSortedProjectsData();
     const featuredProjects = allProjects.slice(0, 2);
+    const heroContent = getHeroContent();
 
     const topSkills = [
         { name: "Next.js", icon: <SiNextdotjs className="text-xl" /> }, // className for size
@@ -21,38 +23,42 @@ export default function HomePage() {
         { name: "AI/ML", icon: <AiOutlineHighlight className="text-xl" /> } // Example conceptual icon
     ];
 
+    const linkedInUrl = "https://www.linkedin.com/in/your-linkedin-profile/";
+    const githubUrl = "https://github.com/your-github-username";
+    const emailAddress = "your.email@example.com";
+
     return (
         <main className="bg-gray-900 text-white min-h-screen">
             {/* Hero Section */}
-            <section className="min-h-screen flex items-center justify-center p-8 pt-20 md:pt-8"> {/* Added padding-top for mobile */}
+            <section className="min-h-screen flex items-center justify-center p-8 pt-20 md:pt-8">
                 <div className="container mx-auto">
                     <div className="flex flex-col md:flex-row items-center justify-center gap-10 md:gap-16 max-w-4xl mx-auto">
 
                         {/* Image Column */}
-                        <div className="w-48 h-48 md:w-56 md:h-56 lg:w-72 lg:h-72 relative flex-shrink-0 order-1 md:order-none"> {/* Added order for mobile */}
+                        <div className="w-48 h-48 md:w-56 md:h-56 lg:w-72 lg:h-72 relative flex-shrink-0 order-1 md:order-none">
                             <Image
-                                src="/images/portrait.png" // Path to your image in the public folder
-                                alt="Kevin Lopez - Profile"      // Replace with your name
+                                src={heroContent.profileImage} // <--- USE DATA
+                                alt={`${heroContent.name} - Profile`} // <--- USE DATA
                                 layout="fill"
                                 objectFit="cover"
-                                className="rounded-full shadow-2xl border-4 border-cyan-500/50 hover:border-cyan-400 transition-all duration-300" // Example styling
-                                priority // Add priority if this image is above the fold
+                                className="rounded-full shadow-2xl border-4 border-cyan-500/50 hover:border-cyan-400 transition-all duration-300"
+                                priority
                             />
                         </div>
 
                         {/* Text Column */}
-                        <div className="text-center md:text-left order-2 md:order-none"> {/* Added order for mobile */}
+                        <div className="text-center md:text-left order-2 md:order-none">
                             <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold mb-3">
-                                Kevin Lopez {/* Replace with your name */}
+                                {heroContent.name} {/* <--- USE DATA */}
                             </h1>
                             <p className="text-xl md:text-2xl text-cyan-400 mb-6">
-                                Software Developer & AI Enthusiast {/* Replace with your title/tagline */}
+                                {heroContent.title} {/* <--- USE DATA */}
                             </p>
                             <p className="text-md sm:text-lg text-gray-300 mb-8 leading-relaxed max-w-md md:max-w-none mx-auto md:mx-0">
-                                I build modern, responsive web applications and explore the frontiers of Artificial Intelligence. Passionate about clean code and innovative solutions.
-                                {/* Replace with your brief intro */}
+                                {heroContent.intro} {/* <--- USE DATA */}
                             </p>
 
+                            {/* Top Skills Bar (remains the same, using its local definition) */}
                             <div className="mb-8 flex flex-wrap justify-center md:justify-start gap-2 sm:gap-3">
                                 {topSkills.map((skill) => (
                                     <div
@@ -65,23 +71,36 @@ export default function HomePage() {
                                 ))}
                             </div>
 
-                            <div className="flex justify-center md:justify-start space-x-4">
-                                <Link
-                                    href="/projects"
-                                    className="bg-cyan-500 hover:bg-cyan-600 text-white font-bold py-3 px-6 sm:px-8 rounded-lg text-md sm:text-lg transition duration-300"
-                                >
-                                    View My Work
-                                </Link>
-                                {/* Example Social Link:
-                        <a
-                          href="https://github.com/yourusername"
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="text-gray-400 hover:text-cyan-400 border-2 border-gray-600 hover:border-cyan-500 rounded-lg py-3 px-6 sm:px-8 text-md sm:text-lg transition duration-300"
-                        >
-                          GitHub
-                        </a>
-                      */}
+                            <div className="flex flex-col items-center md:items-start space-y-4 sm:space-y-0 sm:flex-row sm:space-x-4">
+                                <div className="flex space-x-4 items-center">
+                                    <a
+                                        href={linkedInUrl}
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        aria-label="LinkedIn Profile"
+                                        className="text-gray-300 hover:text-cyan-400 transition-colors duration-300"
+                                    >
+                                        <FaLinkedin size={32} />
+                                    </a>
+                                    <a
+                                        href={githubUrl}
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        aria-label="GitHub Profile"
+                                        className="text-gray-300 hover:text-cyan-400 transition-colors duration-300"
+                                    >
+                                        <FaGithub size={32} />
+                                    </a>
+                                    <a
+                                        href={`mailto:${emailAddress}`}
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        aria-label="Email Address"
+                                        className="text-gray-300 hover:text-cyan-400 transition-colors duration-300"
+                                    >
+                                        <FaEnvelope size={32} />
+                                    </a>
+                                </div>
                             </div>
                         </div>
                     </div>
