@@ -6,7 +6,7 @@ implementation of machine learning algorithms including K-means, basic-means, li
 Python libraries (scikit-learn, pandas)."
 tags: ["ML", "AI", "Python", "scikit-learn", "pandas"]
 heroImage: "/images/cover-photos/Missing Value Estimation.png"
-gallery: "/images/ai-ml/predictiveimputation"
+galleryDirectory: "/images/ai-ml/predictiveimputation"
 ---
 
 Split into 2 parts. Missing Value Estimation and Classification.

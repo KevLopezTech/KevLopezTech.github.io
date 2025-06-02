@@ -1,105 +1,189 @@
-"use client"; // This component needs to be a client component for useState and event handling
+"use client";
 
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { FiMenu, FiX } from 'react-icons/fi'; // Hamburger and close icons
+import { FiMenu, FiX } from 'react-icons/fi';
+import {
+  FaHome, FaUserAlt, FaBrain, FaGamepad, FaThLarge,
+  FaGithub, FaLinkedin, FaEnvelope
+} from 'react-icons/fa';
+import {
+  LuGamepad2,
+    LuBrainCog
+} from 'react-icons/lu'
+import { GiArtificialHive } from 'react-icons/gi';
+import { motion, AnimatePresence } from 'framer-motion';
+import {JSX} from "react/jsx-dev-runtime";
 
-const navLinks = [
-  { name: "About", href: "/about" }, // Assuming #about is an ID on your homepage
-  { name: "Projects", href: "/projects" },
-  { name: "Experience", href: "/#experience" }, // Assuming #experience is an ID on your homepage
-  { name: "Education", href: "/#education" },   // Assuming #education is an ID on your homepage
-  // Add { name: "Contact", href: "/#contact" } if you add a contact section to homepage
+type NavLinkItem = {
+  name: string;
+  href: string;
+  icon?: JSX.Element;
+};
+
+interface HeaderProps {
+  githubUrl?: string;
+  linkedinUrl?: string;
+  emailAddress?: string;
+}
+
+const iconMargin = "mr-2";
+const iconStyle = "inline-block relative -top-px align-middle";
+const iconSize = 20;
+
+const navLinks: NavLinkItem[] = [
+  { name: "Home", href: "/", icon: <FaHome className={`${iconStyle} ${iconMargin}`} size={iconSize} /> },
+  { name: "About", href: "/about", icon: <FaUserAlt className={`${iconStyle} ${iconMargin}`} size={iconSize*0.9} /> },
+  { name: "Artificial Intelligence", href: "/projects/ai", icon: <LuBrainCog className={`${iconStyle} ${iconMargin}`} size={iconSize} /> },
+  { name: "Game Development", href: "/projects/game-dev", icon: <LuGamepad2 className={`${iconStyle} ${iconMargin}`} size={iconSize} /> },
+  { name: "Internet of Things", href: "/projects/iot", icon: <GiArtificialHive className={`${iconStyle} ${iconMargin}`} size={iconSize} /> },
+  { name: "All Projects", href: "/projects", icon: <FaThLarge className={`${iconStyle} ${iconMargin}`} size={iconSize*0.9} /> },
 ];
 
-export default function Header() {
+// Simplified drawer animation focusing on x-transform
+const drawerVariants = {
+  hidden: { x: "100%" },
+  visible: { x: 0, transition: { type: "spring", stiffness: 300, damping: 30 } },
+  exit: { x: "100%", transition: { type: "tween", ease: "easeIn", duration: 0.2 } },
+};
+
+const overlayVariants = {
+  hidden: { opacity: 0 },
+  visible: { opacity: 1, transition: { duration: 0.2 } },
+  exit: { opacity: 0, transition: { duration: 0.2, delay: 0.1 } },
+};
+
+export default function Header({ githubUrl, linkedinUrl, emailAddress }: HeaderProps) {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const pathname = usePathname();
 
-  const toggleMobileMenu = () => {
-    setIsMobileMenuOpen(!isMobileMenuOpen);
-  };
+  const toggleMobileMenu = () => setIsMobileMenuOpen(!isMobileMenuOpen);
 
-  // Close mobile menu on route change
-  useEffect(() => {
-    setIsMobileMenuOpen(false);
-  }, [pathname]);
+  useEffect(() => { setIsMobileMenuOpen(false); }, [pathname]);
 
-  // Close mobile menu if escape key is pressed
   useEffect(() => {
     const handleEsc = (event: KeyboardEvent) => {
-       if (event.key === 'Escape') {
-        setIsMobileMenuOpen(false);
-       }
+      if (event.key === 'Escape') setIsMobileMenuOpen(false);
     };
-    window.addEventListener('keydown', handleEsc);
+    if (isMobileMenuOpen) {
+      document.body.style.overflow = 'hidden';
+      window.addEventListener('keydown', handleEsc);
+    } else {
+      document.body.style.overflow = 'unset';
+    }
     return () => {
-        window.removeEventListener('keydown', handleEsc);
+      document.body.style.overflow = 'unset';
+      window.removeEventListener('keydown', handleEsc);
     };
-  }, []);
+  }, [isMobileMenuOpen]);
 
+  const getLinkClassNames = (linkHref: string) => {
+    let isActive = false;
+    if (linkHref === "/projects") {
+      isActive = pathname === "/projects";
+    } else if (linkHref.startsWith("/projects/")) {
+      isActive = pathname === linkHref || pathname.startsWith(linkHref + "/");
+    } else {
+      isActive = pathname === linkHref;
+    }
+    return {
+      desktop: `px-3 py-2 text-lg transition-colors text-center ${isActive ? 'text-cyan-400 font-semibold border-b-2 border-cyan-400' : 'text-gray-300 hover:text-cyan-400'}`,
+      mobileButton: `w-full flex items-center justify-center rounded-lg px-4 py-3 text-lg transition-all duration-200 ease-in-out transform ${isActive ? 'bg-cyan-500 text-white font-semibold shadow-md scale-105' : 'text-cyan-200 bg-gray-700/40 hover:bg-gray-600/80 hover:text-white hover:scale-[1.03]'}`
+    };
+  };
 
   return (
-    <header className="fixed top-0 left-0 right-0 z-50 bg-gray-900/80 backdrop-blur-md shadow-lg">
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between h-20">
-          {/* Logo / Site Name */}
-          <Link href="/" className="text-2xl font-bold text-white hover:text-cyan-400 transition-colors">
-            Kevin Lopez {/* Replace with your name or logo */}
-          </Link>
-
-          {/* Desktop Navigation */}
-          <nav className="hidden md:flex space-x-8">
-            {navLinks.map((link) => (
-              <Link
-                key={link.name}
-                href={link.href}
-                className={`text-lg ${
-                  pathname === link.href || (link.href.startsWith("/projects") && pathname.startsWith("/projects"))
-                    ? 'text-cyan-400 font-semibold border-b-2 border-cyan-400'
-                    : 'text-gray-300 hover:text-cyan-400 transition-colors'
-                }`}
-              >
-                {link.name}
+      <>
+        {/* Header Bar: z-30 */}
+        <header className="fixed top-0 left-0 right-0 z-30 bg-gray-900 shadow-lg">
+          <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="flex items-center justify-between h-20">
+              <Link href="/" className="text-2xl font-bold text-white hover:text-cyan-400 transition-colors">
+                Kevin Lopez
               </Link>
-            ))}
-          </nav>
-
-          {/* Mobile Menu Button */}
-          <div className="md:hidden">
-            <button
-              onClick={toggleMobileMenu}
-              aria-label="Toggle menu"
-              className="text-cyan-400 hover:text-cyan-300 focus:outline-none focus:text-cyan-400 transition-colors"
-            >
-              {isMobileMenuOpen ? <FiX size={28} /> : <FiMenu size={28} />}
-            </button>
+              <nav className="hidden md:flex items-center space-x-4 lg:space-x-6">
+                {navLinks.map((link) => (
+                    <Link key={link.name} href={link.href} className={getLinkClassNames(link.href).desktop} >
+                      {link.icon} {link.name}
+                    </Link>
+                ))}
+              </nav>
+              <div className="md:hidden">
+                <button onClick={toggleMobileMenu} aria-label="Toggle menu" className="text-cyan-400 hover:text-cyan-300 focus:outline-none focus:text-cyan-300 transition-colors relative z-50"> {/* Ensure button on top */}
+                  {isMobileMenuOpen ? <FiX size={28} /> : <FiMenu size={28} />}
+                </button>
+              </div>
+            </div>
           </div>
-        </div>
-      </div>
+        </header>
 
-      {/* Mobile Menu Panel */}
-      {isMobileMenuOpen && (
-        <div className="md:hidden absolute top-20 left-0 right-0 bg-gray-800/95 backdrop-blur-md shadow-xl py-4">
-          <nav className="flex flex-col items-center space-y-4">
-            {navLinks.map((link) => (
-              <Link
-                key={link.name}
-                href={link.href}
-                onClick={() => setIsMobileMenuOpen(false)} // Close menu on click
-                className={`text-xl py-2 ${
-                  pathname === link.href || (link.href.startsWith("/projects") && pathname.startsWith("/projects"))
-                    ? 'text-cyan-400 font-semibold'
-                    : 'text-cyan-300 hover:text-cyan-200 transition-colors'
-                }`}
-              >
-                {link.name}
-              </Link>
-            ))}
-          </nav>
-        </div>
-      )}
-    </header>
+        <AnimatePresence>
+          {isMobileMenuOpen && (
+              <>
+                {/* Overlay: z-40 */}
+                <motion.div
+                    key="mobile-overlay"
+                    className="fixed inset-0 bg-black/60 backdrop-blur-sm z-40"
+                    variants={overlayVariants}
+                    initial="hidden"
+                    animate="visible"
+                    exit="hidden"
+                    onClick={toggleMobileMenu}
+                />
+                {/* Drawer Menu Panel: z-50, slides in from right, below header */}
+                <motion.div
+                    key="mobile-drawer"
+                    className="fixed top-20 right-0 w-4/5 max-w-xs bg-gray-800 shadow-2xl p-4 z-50
+                         flex flex-col rounded-l-lg
+                         max-h-[calc(100vh-5rem-2rem)] overflow-y-auto" // 5rem header, 2rem buffer from bottom
+                    variants={drawerVariants}
+                    initial="hidden"
+                    animate="visible"
+                    exit="hidden"
+                >
+                  {/* Main Navigation Links */}
+                  <nav className="flex flex-col space-y-3 flex-shrink-0">
+                    {navLinks.map((link) => (
+                        <Link
+                            key={link.name}
+                            href={link.href}
+                            onClick={toggleMobileMenu}
+                            className={getLinkClassNames(link.href).mobileButton}
+                        >
+                          {link.icon}
+                          {link.name}
+                        </Link>
+                    ))}
+                  </nav>
+
+                  {/* Social Links Section - Pushed to bottom if space, or scrolls with content */}
+                  {/* Added flex-grow to an invisible div to push social links down if content is short */}
+                  <div className="flex-grow"></div>
+
+                  <div className="pt-4 mt-4 border-t border-gray-700/50">
+                    <div className="flex justify-around items-center py-2"> {/* justify-around for even spacing */}
+                      {linkedinUrl && (
+                          <a href={linkedinUrl} target="_blank" rel="noopener noreferrer" aria-label="LinkedIn" className="text-gray-300 hover:text-cyan-300 transition-colors" title="LinkedIn">
+                            <FaLinkedin size={26} />
+                          </a>
+                      )}
+                      {githubUrl && (
+                          <a href={githubUrl} target="_blank" rel="noopener noreferrer" aria-label="GitHub" className="text-gray-300 hover:text-cyan-300 transition-colors" title="GitHub">
+                            <FaGithub size={26} />
+                          </a>
+                      )}
+                      {emailAddress && (
+                          <a href={`mailto:${emailAddress}`} aria-label="Email" className="text-gray-300 hover:text-cyan-300 transition-colors" title="Email">
+                            <FaEnvelope size={26} />
+                          </a>
+                      )}
+                    </div>
+                  </div>
+                </motion.div>
+              </>
+          )}
+        </AnimatePresence>
+      </>
   );
 }

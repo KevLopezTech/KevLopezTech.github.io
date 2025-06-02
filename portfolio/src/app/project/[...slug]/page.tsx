@@ -1,14 +1,13 @@
-import { getAllProjectSlugs, getProjectPageDetails, ProjectFrontmatter } from '@/lib/projects';
+import { getAllProjectSlugs, getProjectPageDetails, ProjectFrontmatter, GalleryItem } from '@/lib/projects';
 import Link from 'next/link';
-import Image from 'next/image'; // Make sure Image is imported
+import Image from 'next/image';
 import ProjectGallery from '@/components/ProjectGallery';
 
-// Define a type for the expected shape of projectData from getProjectPageDetails
-// This should match the return type of getProjectPageDetails
 type ProjectPageData = {
     slug: string;
     contentHtml: string;
-} & ProjectFrontmatter; // Assuming ProjectFrontmatter is exported from lib/projects.ts
+    gallery: GalleryItem[];
+} & ProjectFrontmatter;
 
 export async function generateStaticParams() {
     const paths = getAllProjectSlugs();
@@ -17,69 +16,87 @@ export async function generateStaticParams() {
 
 export default async function ProjectPage({ params: routeParams }: { params: { slug: string[] } }) {
     const { slug: slugArray } = await routeParams;
-    const slugString = slugArray.join('/');
-
-    // Assuming getProjectPageDetails returns the full project data including frontmatter
     const projectData = await getProjectPageDetails(slugArray) as ProjectPageData;
 
     return (
         <main className="p-4 sm:p-8 bg-gray-900 text-white min-h-screen">
-            <div className="max-w-3xl mx-auto">
+            {/* Increased max-width from max-w-3xl to max-w-4xl */}
+            <div className="max-w-4xl mx-auto">
                 <Link href="/projects" className="text-cyan-400 hover:underline mb-8 inline-block text-sm">
                     ← Back to All Projects
                 </Link>
 
-                <article className="prose prose-invert lg:prose-xl max-w-none"> {/* Added max-w-none for prose to take full width of its parent */}
+                {/* Adjusted prose class for larger base text, e.g., from lg:prose-xl to lg:prose-2xl if available, or rely on individual heading overrides */}
+                {/* For this example, I'll adjust individual elements and keep prose-xl as a base for the main text body */}
+                <article className="prose prose-invert lg:prose-xl max-w-none">
+                    {/* Increased Title Size */}
+                    <h1 className="text-cyan-400 mb-3 !text-5xl md:!text-6xl">{projectData.title}</h1>
 
-                    {/* Title */}
-                    <h1 className="text-cyan-400 mb-2 !text-4xl md:!text-5xl">{projectData.title}</h1> {/* Overriding prose heading styles for main title */}
-
-                    {/* Specialty & Tags */}
-                    <div className="mb-6 flex flex-wrap items-center gap-x-4 gap-y-2">
+                    {/* Increased Specialty & Tags Size and Spacing */}
+                    <div className="mb-8 flex flex-wrap items-center gap-x-4 gap-y-2">
                         {projectData.specialty && (
-                            <span className="bg-cyan-700 text-cyan-100 text-xs font-semibold px-3 py-1 rounded-full">
+                            // Increased text size from text-xs to text-sm
+                            <span className="bg-cyan-700 text-cyan-100 text-sm font-semibold px-3 py-1.5 rounded-full">
                 {projectData.specialty}
               </span>
                         )}
                         <div className="flex flex-wrap gap-2">
                             {projectData.tags.map(tag => (
-                                <span key={tag} className="bg-gray-700 text-gray-300 text-xs font-medium px-2.5 py-0.5 rounded-full">
+                                // Increased text size from text-xs to text-sm
+                                <span key={tag} className="bg-gray-700 text-gray-300 text-sm font-medium px-3 py-1 rounded-full">
                   {tag}
                 </span>
                             ))}
                         </div>
                     </div>
 
-                    {/* Hero Image (Cover Image) */}
-                    {projectData.heroImage && (
-                        <div className="mb-8"> {/* Added div for better image spacing */}
-                            <Image
-                                src={projectData.heroImage}
-                                alt={`${projectData.title} cover image`}
-                                width={1200} // Provide appropriate width
-                                height={675} // Provide appropriate height for aspect ratio (e.g., 16:9)
-                                className="rounded-lg shadow-xl w-full object-cover" // Ensure it's responsive
-                                priority
-                            />
-                        </div>
-                    )}
+                    {/* Layout for Hero Image and Summary */}
+                    <div className="flex flex-col md:flex-row md:gap-10 my-10 md:items-center"> {/* Increased gap and margin */}
+                        {projectData.heroImage && (
+                            <div className="w-full md:w-1/2 lg:w-2/5 flex-shrink-0 mb-6 md:mb-0"> {/* Adjusted width proportions slightly */}
+                                <Image
+                                    src={projectData.heroImage}
+                                    alt={`${projectData.title} cover image`}
+                                    width={800} // Increased base width for better quality at larger display
+                                    height={600} // Adjusted for a 4:3, can also be 16:9 like 800x450
+                                    className="rounded-lg shadow-xl w-full h-auto object-cover"
+                                    priority
+                                />
+                            </div>
+                        )}
 
-                    {/* Brief Summary */}
-                    {projectData.summary && (
-                        <p className="text-lg md:text-xl text-gray-300 italic leading-relaxed mb-8 border-l-4 border-cyan-500 pl-4">
-                            {projectData.summary}
-                        </p>
-                    )}
+                        {projectData.summary && (
+                            <div className={`leading-relaxed ${projectData.heroImage ? 'md:w-1/2 lg:w-3/5' : 'w-full'}`}> {/* Adjusted width proportions */}
+                                {/* Increased Summary Header Size */}
+                                <h3 className="text-3xl font-semibold text-cyan-400 mb-3 !mt-0">
+                                    Summary
+                                </h3>
+                                {/* Increased Summary Text Size */}
+                                <p className="text-lg md:text-xl text-gray-300 m-0">
+                                    {projectData.summary}
+                                </p>
+                            </div>
+                        )}
+                    </div>
 
-                    {/* Detailed Summary (Main Markdown Content) */}
-                    {/* This div will be styled by the 'prose' classes on the article tag */}
+                    {/* Increased Details Header Size */}
+                    <h3 className="text-3xl font-semibold text-cyan-400 mb-4 !mt-10">
+                        Details
+                    </h3>
+                    {/* The div below will inherit its base font size from 'prose-xl' (approx 20px).
+              If you want larger body text, you could try 'lg:prose-2xl' on the <article> tag,
+              or add specific text size classes to paragraphs generated by the Markdown if needed.
+              For now, prose-xl should provide good readability.
+          */}
                     <div dangerouslySetInnerHTML={{ __html: projectData.contentHtml }} />
 
-                    {/* Image Gallery - REPLACED WITH NEW COMPONENT */}
                     {projectData.gallery && projectData.gallery.length > 0 && (
-                        <section className="mt-12">
-                            <h2 className="text-2xl font-semibold text-cyan-400 mb-6 !mt-0">Gallery</h2>
-                            <ProjectGallery gallery={projectData.gallery} /> {/* <--- USE THE NEW COMPONENT HERE */}
+                        <section className="mt-16"> {/* Increased top margin */}
+                            {/* Increased Gallery Header Size */}
+                            <h2 className="text-3xl font-semibold text-cyan-400 mb-8 !mt-0">
+                                Gallery
+                            </h2>
+                            <ProjectGallery gallery={projectData.gallery} />
                         </section>
                     )}
                 </article>

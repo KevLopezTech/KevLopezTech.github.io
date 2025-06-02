@@ -5,7 +5,7 @@ summary: "Designed and built a self-driving robot equipped with camera vision, l
 localization AI techniques to automate driving. Utilized Linux, Arduino, NVIDIA Jetson Platform, and Raspberry Pi."
 tags: ["AI", "Robotics", "Embedded Systems"]
 heroImage: "/images/Jetson TX1.png"
-gallery: []
+galleryDirectory: []
 ---
 
 This project was a Live Demo and unfortunately does not have any images or videos.

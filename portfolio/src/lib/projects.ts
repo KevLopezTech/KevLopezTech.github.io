@@ -13,7 +13,7 @@ export type ProjectFrontmatter = {
     details?: string; // Optional text field in frontmatter
     tags: string[];
     heroImage?: string;
-    gallery?: string; // Path to the gallery image/video folder relative to /public
+    galleryDirectory?: string; // Path to the gallery image/video folder relative to /public
 };
 
 export type GalleryItem = {
@@ -114,10 +114,10 @@ export async function getProjectData(slug: string): Promise<{
 
     let resolvedGalleryItems: GalleryItem[] = [];
 
-    if (frontmatter.gallery) {
-        const directoryPathInPublic = frontmatter.gallery.startsWith('/')
-            ? frontmatter.gallery.substring(1)
-            : frontmatter.gallery;
+    if (frontmatter.galleryDirectory) {
+        const directoryPathInPublic = frontmatter.galleryDirectory.startsWith('/')
+            ? frontmatter.galleryDirectory.substring(1)
+            : frontmatter.galleryDirectory;
 
         const fullSystemDirectoryPath = path.join(process.cwd(), 'public', directoryPathInPublic);
 
@@ -127,7 +127,7 @@ export async function getProjectData(slug: string): Promise<{
                 resolvedGalleryItems = files
                     .filter(file => /\.(jpe?g|png|gif|webp|mp4|webm|ogg)$/i.test(file)) // Common image & video extensions
                     .map(file => {
-                        let publicPath = path.join(frontmatter.gallery!, file).replace(/\\/g, '/');
+                        let publicPath = path.join(frontmatter.galleryDirectory!, file).replace(/\\/g, '/');
                         if (!publicPath.startsWith('/')) {
                             publicPath = '/' + publicPath;
                         }

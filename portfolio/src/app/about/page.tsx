@@ -1,63 +1,120 @@
 import React from 'react';
-import Link from 'next/link';
-import Image from 'next/image'; // Optional: if you want an image on this page too
+import Image from 'next/image';
+import Link from 'next/link'; // In case you want to add any links later
+import { getHeroContent, type HeroContent } from '@/lib/homepage';
+import {
+    getExperienceData,
+    getEducationData,
+    getCertificationData,
+    type ExperienceItem,
+    type EducationItem,
+    type CertificationItem
+} from '@/lib/aboutContent';
+import InfoCard from '@/components/InfoCard';
 
-export default function AboutPage() {
+export default async function AboutPage() {
+    const heroContent = getHeroContent(); // For profile image and intro
+    const experienceItems = await getExperienceData();
+    const educationItems = await getEducationData();
+    const certificationItems = await getCertificationData();
+
+    // Helper function to create a link object for InfoCard if URL exists
+    const createLinkObject = (url?: string, text: string = "View Details") => {
+        return url ? { href: url, text: text } : undefined;
+    };
+
     return (
-        <main className="bg-gray-900 text-white min-h-screen"> {/* Ensure main content area is below fixed header if body doesn't have enough padding */}
-            <div className="container mx-auto max-w-3xl px-4 sm:px-6 lg:px-8 py-16 md:py-24"> {/* Added padding here too */}
+        <main className="bg-gray-900 text-white min-h-screen">
+            <div className="container mx-auto max-w-4xl px-4 sm:px-6 lg:px-8 py-12 md:py-20"> {/* Consistent page padding */}
 
-                <h1 className="text-4xl md:text-5xl font-bold text-center text-cyan-400 mb-12">
-                    About Me
-                </h1>
-
-                {/* Optional: You could add a profile image here too if desired */}
-                {/* <div className="mb-12 flex justify-center">
-          <Image
-            src="/images/profile-placeholder.jpg" // Replace with your image
-            alt="Kevin Lopez"
-            width={200}
-            height={200}
-            className="rounded-full shadow-xl border-2 border-cyan-500/70"
-          />
-        </div> */}
-
-                <section className="space-y-8 text-lg text-gray-300 leading-relaxed">
-                    <p>
-                        Hello! I'm Kevin Lopez, a passionate Software Developer with a keen interest in Artificial Intelligence and Machine Learning.
-                        My journey into the world of technology began with [mention how you got started or what sparked your interest - e.g., a fascination for how websites were built, a love for problem-solving, a specific project or course].
-                    </p>
-                    <p>
-                        I thrive on building innovative and efficient solutions to complex problems. Whether it's crafting intuitive user interfaces, developing robust backend systems,
-                        or exploring the potential of AI, I'm driven by a constant desire to learn and grow. I believe in the power of clean code, thoughtful design,
-                        and collaborative teamwork to create impactful digital experiences.
-                    </p>
-
-                    <div>
-                        <h2 className="text-2xl font-semibold text-cyan-300 mb-3 mt-10">My Philosophy</h2>
-                        <p>
-                            For me, development is more than just writing code. It's about understanding user needs, architecting sustainable solutions, and continuously refining my craft.
-                            I value [mention a few values - e.g., curiosity, perseverance, attention to detail, user-centricity].
-                        </p>
-                    </div>
-
-                    <div>
-                        <h2 className="text-2xl font-semibold text-cyan-300 mb-3 mt-10">Beyond the Code</h2>
-                        <p>
-                            When I'm not coding, I enjoy [mention a hobby or two - e.g., exploring new technologies, reading about AI advancements, hiking, playing a musical instrument].
-                            These interests help me stay creative and bring new perspectives to my work.
-                        </p>
-                    </div>
-
-                    <div className="text-center pt-8">
-                        <Link
-                            href="/projects"
-                            className="bg-cyan-500 hover:bg-cyan-600 text-white font-bold py-3 px-8 rounded-lg text-lg transition duration-300 inline-block"
-                        >
-                            Explore My Projects
-                        </Link>
+                {/* Top "About Me" Introduction Section */}
+                <section className="mb-16 md:mb-20">
+                    <div className="flex flex-col md:flex-row items-center md:items-start gap-8 md:gap-12">
+                        {heroContent.profileImage && (
+                            <div className="flex-shrink-0 w-48 h-48 md:w-56 md:h-56 lg:w-64 lg:h-64 relative">
+                                <Image
+                                    src={heroContent.profileImage}
+                                    alt={`${heroContent.name} - Profile`}
+                                    layout="fill"
+                                    objectFit="cover"
+                                    className="rounded-full shadow-xl border-2 border-cyan-500/60"
+                                />
+                            </div>
+                        )}
+                        <div className="text-center md:text-left">
+                            <h1 className="text-4xl md:text-5xl font-bold text-cyan-400 mb-4">
+                                About {heroContent.name.split(' ')[0]} {/* Just first name for title */}
+                            </h1>
+                            {/* Using the intro from hero.md. You might want a more detailed one here later */}
+                            <p className="text-lg lg:text-xl text-gray-300 leading-relaxed">
+                                {heroContent.intro}
+                            </p>
+                            {/* You can add more paragraphs here for a more detailed "About Me" narrative */}
+                        </div>
                     </div>
                 </section>
+
+                {/* Experience Section */}
+                {experienceItems && experienceItems.length > 0 && (
+                    <section className="mb-16 md:mb-20">
+                        <h2 className="text-3xl md:text-4xl font-bold text-cyan-400 mb-8 text-center md:text-left">Experience</h2>
+                        <div className="space-y-8">
+                            {experienceItems.map((item) => (
+                                <InfoCard
+                                    key={item.slug}
+                                    logoUrl={item.logo}
+                                    mainTitle={item.companyName}
+                                    subtitle={item.role}
+                                    dateOrDuration={item.duration}
+                                    location={item.location}
+                                    detailsHtml={item.contentHtml}
+                                    // link={createLinkObject(item.companyUrl, "Visit Company")} // Example if you add companyUrl to frontmatter
+                                />
+                            ))}
+                        </div>
+                    </section>
+                )}
+
+                {/* Education Section */}
+                {educationItems && educationItems.length > 0 && (
+                    <section className="mb-16 md:mb-20">
+                        <h2 className="text-3xl md:text-4xl font-bold text-cyan-400 mb-8 text-center md:text-left">Education</h2>
+                        <div className="space-y-8">
+                            {educationItems.map((item) => (
+                                <InfoCard
+                                    key={item.slug}
+                                    logoUrl={item.logo}
+                                    mainTitle={item.institutionName}
+                                    subtitle={item.degree}
+                                    dateOrDuration={item.graduationDate}
+                                    location={item.location}
+                                    detailsHtml={item.contentHtml}
+                                    // gpa={item.gpa} // InfoCard doesn't have GPA prop, could add to detailsHtml or subtitle2
+                                />
+                            ))}
+                        </div>
+                    </section>
+                )}
+
+                {/* Certifications Section */}
+                {certificationItems && certificationItems.length > 0 && (
+                    <section>
+                        <h2 className="text-3xl md:text-4xl font-bold text-cyan-400 mb-8 text-center md:text-left">Licenses & Certifications</h2>
+                        <div className="space-y-8">
+                            {certificationItems.map((item) => (
+                                <InfoCard
+                                    key={item.slug}
+                                    logoUrl={item.logo}
+                                    mainTitle={item.certificationName}
+                                    subtitle={item.issuingBody}
+                                    dateOrDuration={item.issueDate}
+                                    detailsHtml={item.contentHtml}
+                                    link={createLinkObject(item.credentialUrl, "View Credential")}
+                                />
+                            ))}
+                        </div>
+                    </section>
+                )}
             </div>
         </main>
     );

@@ -9,9 +9,9 @@ export type HeroContent = {
     title: string;
     intro: string;
     profileImage: string;
-    // Add other fields here if you add them to hero.md, e.g.:
-    // linkedInUrl?: string;
-    // githubUrl?: string;
+    linkedInUrl?: string;
+    githubUrl?: string;
+    emailAddress?: string;
 };
 
 export function getHeroContent(): HeroContent {
