@@ -100,12 +100,12 @@ export default function ProjectGallery({ gallery }: ProjectGalleryProps) {
 
             {/* Thumbnail Preview Bar */}
             {gallery.length > 1 && (
-                <div className="flex space-x-2 overflow-x-auto p-2 bg-gray-800/50 rounded-md"> {/* Removed mt-8, as arrows are no longer below */}
+                <div className="flex space-x-2 overflow-x-auto p-2 bg-gray-800/50 rounded-lg"> {/* Removed mt-8, as arrows are no longer below */}
                     {gallery.map((item, index) => (
                         <div
                             key={item.src + "-thumb-" + index}
                             onClick={() => goToSlide(index)}
-                            className={`relative cursor-pointer w-20 h-14 md:w-24 md:h-16 flex-shrink-0 rounded-md overflow-hidden border-2 hover:border-cyan-400 transition-all duration-200
+                            className={`relative cursor-pointer w-20 h-14 md:w-24 md:h-16 flex-shrink-0 rounded-lg overflow-hidden border-2 hover:border-cyan-400 transition-all duration-200
                           ${currentIndex === index ? 'border-cyan-500 scale-105' : 'border-transparent'}`}
                         >
                             {item.type === 'image' ? (

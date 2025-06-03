@@ -2,7 +2,7 @@
 institutionName: "Georgia State University"
 degree: "B.S. in Computer Science"
 graduationDate: "May 2018"
-logo: "/images/logos/state-uni-logo.png"
+logo: "/images/about/georgia-state-university-1.png"
 location: "Atlanta, GA"
 ---
 - Relevant Coursework: Advanced Algorithms, Machine Learning, Data Structures, Software Engineering.

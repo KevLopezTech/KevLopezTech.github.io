@@ -8,9 +8,9 @@ import html from 'remark-html';
 
 export type ProjectFrontmatter = {
     title: string;
-    specialty: string;
+    specialty: string; // e.g., "AI", "Web Development", matches category slug
     summary: string;
-    details?: string; // Optional text field in frontmatter
+    details?: string; // Optional additional text field in frontmatter
     tags: string[];
     heroImage?: string;
     galleryDirectory?: string; // Path to the gallery image/video folder relative to /public
@@ -33,27 +33,34 @@ const projectsDirectory = path.join(process.cwd(), 'content/projects');
  * This function reads the frontmatter from all project markdown files.
  */
 export function getSortedProjectsData(): ({ slug: string } & ProjectFrontmatter)[] {
+    if (!fs.existsSync(projectsDirectory)) {
+        console.warn(`Projects directory not found: ${projectsDirectory}. Returning empty array.`);
+        return [];
+    }
     const categories = fs.readdirSync(projectsDirectory);
     let allProjectsData: ({ slug: string } & ProjectFrontmatter)[] = [];
 
     categories.forEach(category => {
         const categoryPath = path.join(projectsDirectory, category);
-        if (fs.statSync(categoryPath).isDirectory()) {
+        // Ensure categoryPath is a directory before trying to read it
+        if (fs.existsSync(categoryPath) && fs.statSync(categoryPath).isDirectory()) {
             const fileNames = fs.readdirSync(categoryPath);
             const categoryProjects = fileNames
-                .filter(fileName => fileName.endsWith('.md') || fileName.endsWith('.mdx')) // Ensure only md/mdx files
+                .filter(fileName => fileName.endsWith('.md') || fileName.endsWith('.mdx'))
                 .map(fileName => {
                     const slug = `${category}/${fileName.replace(/\.mdx?$/, '')}`;
                     const fullPath = path.join(categoryPath, fileName);
                     const fileContents = fs.readFileSync(fullPath, 'utf8');
-                    const matterResult = matter(fileContents);
+                    const { data } = matter(fileContents); // matterResult.data is the frontmatter
 
                     return {
                         slug,
-                        ...(matterResult.data as ProjectFrontmatter), // Cast frontmatter to our defined type
+                        ...(data as ProjectFrontmatter), // Cast frontmatter to our defined type
                     };
                 });
             allProjectsData = [...allProjectsData, ...categoryProjects];
+        } else {
+            console.warn(`Category path is not a directory or does not exist: ${categoryPath}`);
         }
     });
 
@@ -62,6 +69,7 @@ export function getSortedProjectsData(): ({ slug: string } & ProjectFrontmatter)
         if (a.title && b.title) {
             return a.title.localeCompare(b.title);
         }
+        // Basic fallback if one title is missing (shouldn't happen with TypeScript if type is enforced)
         if (a.title) return -1;
         if (b.title) return 1;
         return 0;
@@ -72,12 +80,15 @@ export function getSortedProjectsData(): ({ slug: string } & ProjectFrontmatter)
  * Gets all project slugs for generating static paths.
  */
 export function getAllProjectSlugs() {
+    if (!fs.existsSync(projectsDirectory)) {
+        return [];
+    }
     const categories = fs.readdirSync(projectsDirectory);
     let paths: { params: { slug: string[] } }[] = [];
 
     categories.forEach(category => {
         const categoryPath = path.join(projectsDirectory, category);
-        if (fs.statSync(categoryPath).isDirectory()) {
+        if (fs.existsSync(categoryPath) && fs.statSync(categoryPath).isDirectory()) {
             const fileNames = fs.readdirSync(categoryPath);
             fileNames
                 .filter(fileName => fileName.endsWith('.md') || fileName.endsWith('.mdx'))
@@ -102,7 +113,14 @@ export async function getProjectData(slug: string): Promise<{
     contentHtml: string;
     gallery: GalleryItem[];
 } & ProjectFrontmatter> {
-    const fullPath = path.join(projectsDirectory, `${slug}.md`); // Assuming .md, adjust if .mdx
+    const fullPath = path.join(projectsDirectory, `${slug}.md`); // Assuming .md, adjust if .mdx is primary
+    if (!fs.existsSync(fullPath)) {
+        // Handle case where markdown file doesn't exist
+        console.error(`Markdown file not found for slug: ${slug} at path: ${fullPath}`);
+        // Return a default or throw an error, depending on desired behavior
+        // For now, let's throw to make it obvious during development
+        throw new Error(`Markdown file not found for slug: ${slug}`);
+    }
     const fileContents = fs.readFileSync(fullPath, 'utf8');
     const matterResult = matter(fileContents);
     const frontmatter = matterResult.data as ProjectFrontmatter;
@@ -114,7 +132,9 @@ export async function getProjectData(slug: string): Promise<{
 
     let resolvedGalleryItems: GalleryItem[] = [];
 
-    if (frontmatter.galleryDirectory) {
+    // Check if galleryDirectory exists AND is a string
+    if (frontmatter.galleryDirectory && typeof frontmatter.galleryDirectory === 'string') {
+        // Ensure leading slash and remove it for joining with 'public' correctly
         const directoryPathInPublic = frontmatter.galleryDirectory.startsWith('/')
             ? frontmatter.galleryDirectory.substring(1)
             : frontmatter.galleryDirectory;
@@ -122,11 +142,12 @@ export async function getProjectData(slug: string): Promise<{
         const fullSystemDirectoryPath = path.join(process.cwd(), 'public', directoryPathInPublic);
 
         try {
-            if (fs.existsSync(fullSystemDirectoryPath)) {
+            if (fs.existsSync(fullSystemDirectoryPath) && fs.statSync(fullSystemDirectoryPath).isDirectory()) {
                 const files = fs.readdirSync(fullSystemDirectoryPath);
                 resolvedGalleryItems = files
                     .filter(file => /\.(jpe?g|png|gif|webp|mp4|webm|ogg)$/i.test(file)) // Common image & video extensions
                     .map(file => {
+                        // Construct the public path, ensuring forward slashes and leading slash
                         let publicPath = path.join(frontmatter.galleryDirectory!, file).replace(/\\/g, '/');
                         if (!publicPath.startsWith('/')) {
                             publicPath = '/' + publicPath;
@@ -142,11 +163,14 @@ export async function getProjectData(slug: string): Promise<{
                         };
                     });
             } else {
-                console.warn(`[${slug}] Gallery directory not found: ${fullSystemDirectoryPath}`);
+                console.warn(`[${slug}] Gallery directory specified ("${frontmatter.galleryDirectory}") but path not found or not a directory: ${fullSystemDirectoryPath}`);
             }
         } catch (error) {
             console.error(`[${slug}] Error reading gallery directory ${fullSystemDirectoryPath}:`, error);
         }
+    } else if (frontmatter.galleryDirectory) {
+        // This 'else if' catches cases where galleryDirectory exists but is NOT a string
+        console.warn(`[${slug}] 'galleryDirectory' field in frontmatter is not a string. Value:`, frontmatter.galleryDirectory);
     }
 
     return {
@@ -158,7 +182,7 @@ export async function getProjectData(slug: string): Promise<{
 }
 
 /**
- * Helper function called by project detail pages.
+ * Helper function called by project detail pages to fetch project data.
  */
 export async function getProjectPageDetails(slugArray: string[]) {
     const slugString = slugArray.join('/');
@@ -166,16 +190,19 @@ export async function getProjectPageDetails(slugArray: string[]) {
 }
 
 /**
- * Gets all unique category names for generating static paths for category pages.
+ * Gets all unique category names (folder names) for generating static paths for category pages.
  */
-export function getAllCategories() {
-    const projects = getSortedProjectsData(); // This returns { slug: string, ...frontmatter }[]
-    const allCategories = projects.map(project => project.slug.split('/')[0]);
-    const uniqueCategories = [...new Set(allCategories)];
+export function getAllCategories(): { category: string }[] {
+    if (!fs.existsSync(projectsDirectory)) {
+        return [];
+    }
+    const categories = fs.readdirSync(projectsDirectory).filter(categoryName => {
+        const categoryPath = path.join(projectsDirectory, categoryName);
+        return fs.existsSync(categoryPath) && fs.statSync(categoryPath).isDirectory();
+    });
 
-    return uniqueCategories.map(category => {
+    return categories.map(category => {
         return {
-            // This structure is for generateStaticParams in app/projects/[category]/page.tsx
             category: category,
         };
     });

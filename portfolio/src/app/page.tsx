@@ -144,7 +144,7 @@ export default function HomePage() {
                         <div className="text-center mt-16">
                             <Link
                                 href="/projects"
-                                className="bg-cyan-500 hover:bg-cyan-600 text-white font-bold py-3.5 px-10 rounded-lg text-xl transition duration-300"
+                                className="bg-cyan-500 hover:bg-cyan-600 text-white font-bold py-3.5 px-10 rounded-2xl text-xl transition duration-300"
                             >
                                 View All Projects
                             </Link>
@@ -161,7 +161,7 @@ export default function HomePage() {
                     </h2>
                     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-10">
                         {skillCategories.map((category) => (
-                            <div key={category.categoryName} className="bg-gray-800 p-8 rounded-lg border border-gray-700 shadow-lg flex flex-col">
+                            <div key={category.categoryName} className="bg-gray-800 p-8 rounded-2xl border border-gray-700 shadow-lg flex flex-col">
                                 <h3 className="text-2xl font-semibold text-white mb-6">{category.categoryName}</h3>
                                 <div className="flex flex-wrap gap-4">
                                     {category.skills.map((skill) => (

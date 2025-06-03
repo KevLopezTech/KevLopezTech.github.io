@@ -2,7 +2,7 @@
 companyName: "Control Concepts"
 role: "Software Engineer"
 duration: "February 2019 - Present"
-logo: "/images/logos/company-alpha-logo.png"
+logo: "/images/about/CCI-control-concepts-llc-atlanta.png"
 location: "Atlanta, GA (Remote)"
 ---
 - Developed and implemented a key feature for the main product, improving user engagement by X%.

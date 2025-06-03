@@ -1,16 +1,22 @@
 "use client";
 
 import { useParams } from 'next/navigation';
-import Link from 'next/link';
+// REMOVE Link import if ProjectCard handles its own linking
+// import Link from 'next/link';
+import ProjectCard from './ProjectCard'; // <--- IMPORT ProjectCard
 
-// Define a type for our project data
+// Update this type to match ProjectCard's expectations and your data
 type Project = {
     slug: string;
     title: string;
     summary: string; // <--- CHANGED from description to summary
+    // Include any other fields ProjectCard might need directly from allProjects
+    // For example, if ProjectCard eventually uses heroImage, specialty, tags, etc.
+    // you'd add them here if allProjects contains them.
+    // For now, ProjectCard only uses slug, title, summary.
 };
 
-export default function ProjectList({ allProjects }: { allProjects: Project[] }) {
+export default function ProjectGrid({ allProjects }: { allProjects: Project[] }) {
     const params = useParams();
     const category = params.category as string;
 
@@ -19,15 +25,10 @@ export default function ProjectList({ allProjects }: { allProjects: Project[] })
     );
 
     return (
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            {filteredProjects.map(({ slug, title, summary }) => ( // Destructure summary
-                <Link href={`/project/${slug}`} key={slug}>
-                    <div className="bg-gray-800 p-6 rounded-lg border border-gray-700 hover:border-cyan-400 transition-all duration-300 h-full">
-                        <h2 className="text-2xl font-semibold mb-2">{title}</h2>
-                        {/* Use project.summary here if not destructuring, or just summary if destructured */}
-                        <p className="text-gray-400">{summary}</p> {/* <--- CHANGED from description to summary */}
-                    </div>
-                </Link>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-10"> {/* Matched gap from homepage featured projects */}
+            {/* Use the ProjectCard component for rendering */}
+            {filteredProjects.map((project) => (
+                <ProjectCard key={project.slug} project={project} />
             ))}
         </div>
     );

@@ -5,16 +5,20 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { FiMenu, FiX } from 'react-icons/fi';
 import {
-  FaHome, FaUserAlt, FaBrain, FaGamepad, FaThLarge,
-  FaGithub, FaLinkedin, FaEnvelope
+  FaHome,
+  FaUserAlt,
+  FaBrain,
+  FaGamepad,
+  FaThLarge,
+  FaGithub, FaLinkedin, FaEnvelope // Ensure these are here if used in this component (e.g. if props for them are defined)
 } from 'react-icons/fa';
 import {
-  LuGamepad2,
-    LuBrainCog
-} from 'react-icons/lu'
+  LuGamepad2, // User added this
+  LuBrainCog  // User added this
+} from 'react-icons/lu';
 import { GiArtificialHive } from 'react-icons/gi';
 import { motion, AnimatePresence } from 'framer-motion';
-import {JSX} from "react/jsx-dev-runtime";
+import {JSX} from "react/jsx-dev-runtime"; // User added this for their environment
 
 type NavLinkItem = {
   name: string;
@@ -28,20 +32,19 @@ interface HeaderProps {
   emailAddress?: string;
 }
 
-const iconMargin = "mr-2";
+const iconMargin = "mr-1.5";
 const iconStyle = "inline-block relative -top-px align-middle";
-const iconSize = 20;
+const iconSize = 18;
 
 const navLinks: NavLinkItem[] = [
   { name: "Home", href: "/", icon: <FaHome className={`${iconStyle} ${iconMargin}`} size={iconSize} /> },
   { name: "About", href: "/about", icon: <FaUserAlt className={`${iconStyle} ${iconMargin}`} size={iconSize*0.9} /> },
-  { name: "Artificial Intelligence", href: "/projects/ai", icon: <LuBrainCog className={`${iconStyle} ${iconMargin}`} size={iconSize} /> },
-  { name: "Game Development", href: "/projects/game-dev", icon: <LuGamepad2 className={`${iconStyle} ${iconMargin}`} size={iconSize} /> },
-  { name: "Internet of Things", href: "/projects/iot", icon: <GiArtificialHive className={`${iconStyle} ${iconMargin}`} size={iconSize} /> },
+  { name: "Artificial Intelligence", href: "/projects/artificial-intelligence", icon: <LuBrainCog className={`${iconStyle} ${iconMargin}`} size={iconSize} /> },
+  { name: "Game Development", href: "/projects/game-development", icon: <LuGamepad2 className={`${iconStyle} ${iconMargin}`} size={iconSize} /> },
+  { name: "Internet of Things", href: "/projects/internet-of-things", icon: <GiArtificialHive className={`${iconStyle} ${iconMargin}`} size={iconSize} /> },
   { name: "All Projects", href: "/projects", icon: <FaThLarge className={`${iconStyle} ${iconMargin}`} size={iconSize*0.9} /> },
 ];
 
-// Simplified drawer animation focusing on x-transform
 const drawerVariants = {
   hidden: { x: "100%" },
   visible: { x: 0, transition: { type: "spring", stiffness: 300, damping: 30 } },
@@ -89,20 +92,20 @@ export default function Header({ githubUrl, linkedinUrl, emailAddress }: HeaderP
     }
     return {
       desktop: `px-3 py-2 text-lg transition-colors text-center ${isActive ? 'text-cyan-400 font-semibold border-b-2 border-cyan-400' : 'text-gray-300 hover:text-cyan-400'}`,
-      mobileButton: `w-full flex items-center justify-center rounded-lg px-4 py-3 text-lg transition-all duration-200 ease-in-out transform ${isActive ? 'bg-cyan-500 text-white font-semibold shadow-md scale-105' : 'text-cyan-200 bg-gray-700/40 hover:bg-gray-600/80 hover:text-white hover:scale-[1.03]'}`
+      mobileButton: `w-full flex items-center justify-center rounded-2xl px-4 py-3 text-lg transition-all duration-200 ease-in-out transform ${isActive ? 'bg-cyan-500 text-white font-semibold shadow-md scale-105' : 'text-cyan-200 bg-gray-700/40 hover:bg-gray-600/80 hover:text-white hover:scale-[1.03]'}`
     };
   };
 
   return (
       <>
-        {/* Header Bar: z-30 */}
         <header className="fixed top-0 left-0 right-0 z-30 bg-gray-900 shadow-lg">
           <div className="container mx-auto px-4 sm:px-6 lg:px-8">
             <div className="flex items-center justify-between h-20">
               <Link href="/" className="text-2xl font-bold text-white hover:text-cyan-400 transition-colors">
                 Kevin Lopez
               </Link>
-              <nav className="hidden md:flex items-center space-x-4 lg:space-x-6">
+              {/* === DESKTOP NAVIGATION - SPACING ADJUSTED HERE === */}
+              <nav className="hidden md:flex items-center space-x-2 lg:space-x-4"> {/* Changed from space-x-4 lg:space-x-6 */}
                 {navLinks.map((link) => (
                     <Link key={link.name} href={link.href} className={getLinkClassNames(link.href).desktop} >
                       {link.icon} {link.name}
@@ -110,7 +113,7 @@ export default function Header({ githubUrl, linkedinUrl, emailAddress }: HeaderP
                 ))}
               </nav>
               <div className="md:hidden">
-                <button onClick={toggleMobileMenu} aria-label="Toggle menu" className="text-cyan-400 hover:text-cyan-300 focus:outline-none focus:text-cyan-300 transition-colors relative z-50"> {/* Ensure button on top */}
+                <button onClick={toggleMobileMenu} aria-label="Toggle menu" className="text-cyan-400 hover:text-cyan-300 focus:outline-none focus:text-cyan-300 transition-colors relative z-50">
                   {isMobileMenuOpen ? <FiX size={28} /> : <FiMenu size={28} />}
                 </button>
               </div>
@@ -121,7 +124,6 @@ export default function Header({ githubUrl, linkedinUrl, emailAddress }: HeaderP
         <AnimatePresence>
           {isMobileMenuOpen && (
               <>
-                {/* Overlay: z-40 */}
                 <motion.div
                     key="mobile-overlay"
                     className="fixed inset-0 bg-black/60 backdrop-blur-sm z-40"
@@ -131,18 +133,16 @@ export default function Header({ githubUrl, linkedinUrl, emailAddress }: HeaderP
                     exit="hidden"
                     onClick={toggleMobileMenu}
                 />
-                {/* Drawer Menu Panel: z-50, slides in from right, below header */}
                 <motion.div
                     key="mobile-drawer"
                     className="fixed top-20 right-0 w-4/5 max-w-xs bg-gray-800 shadow-2xl p-4 z-50
-                         flex flex-col rounded-l-lg
-                         max-h-[calc(100vh-5rem-2rem)] overflow-y-auto" // 5rem header, 2rem buffer from bottom
+                         flex flex-col rounded-l-2xl
+                         max-h-[calc(100vh-5rem-2rem)] overflow-y-auto"
                     variants={drawerVariants}
                     initial="hidden"
                     animate="visible"
                     exit="hidden"
                 >
-                  {/* Main Navigation Links */}
                   <nav className="flex flex-col space-y-3 flex-shrink-0">
                     {navLinks.map((link) => (
                         <Link
@@ -157,12 +157,10 @@ export default function Header({ githubUrl, linkedinUrl, emailAddress }: HeaderP
                     ))}
                   </nav>
 
-                  {/* Social Links Section - Pushed to bottom if space, or scrolls with content */}
-                  {/* Added flex-grow to an invisible div to push social links down if content is short */}
                   <div className="flex-grow"></div>
 
                   <div className="pt-4 mt-4 border-t border-gray-700/50">
-                    <div className="flex justify-around items-center py-2"> {/* justify-around for even spacing */}
+                    <div className="flex justify-around items-center py-2">
                       {linkedinUrl && (
                           <a href={linkedinUrl} target="_blank" rel="noopener noreferrer" aria-label="LinkedIn" className="text-gray-300 hover:text-cyan-300 transition-colors" title="LinkedIn">
                             <FaLinkedin size={26} />
