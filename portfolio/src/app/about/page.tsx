@@ -11,6 +11,7 @@ import {
     type CertificationItem
 } from '@/lib/aboutContent';
 import InfoCard from '@/components/InfoCard';
+import {skillCategories} from "@/data/skills";
 
 export default async function AboutPage() {
     const heroContent = getHeroContent(); // For profile image and intro
@@ -99,7 +100,7 @@ export default async function AboutPage() {
                 {/* Certifications Section */}
                 {certificationItems && certificationItems.length > 0 && (
                     <section>
-                        <h2 className="text-3xl md:text-4xl font-bold text-cyan-400 mb-8 text-center md:text-left">Licenses & Certifications</h2>
+                        <h2 className="text-3xl md:text-4xl font-bold text-cyan-400 mb-8 text-center md:text-left">Certifications</h2>
                         <div className="space-y-8">
                             {certificationItems.map((item) => (
                                 <InfoCard
@@ -115,6 +116,7 @@ export default async function AboutPage() {
                         </div>
                     </section>
                 )}
+
             </div>
         </main>
     );

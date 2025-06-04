@@ -7,9 +7,11 @@ import ProjectCard from '@/components/ProjectCard';
 import { skillCategories } from '@/data/skills'; // Ensure this path is correct
 
 // Import icons
-import { FaReact, FaPython, FaLinkedin, FaGithub, FaEnvelope } from 'react-icons/fa';
-import { SiNextdotjs, SiTypescript } from 'react-icons/si';
+import { FaReact, FaPython, FaLinkedin, FaGithub, FaEnvelope, FaJava, FaUnity } from 'react-icons/fa';
+import { FaC, FaCode } from 'react-icons/fa6'
+import { SiNextdotjs, SiC, SiTypescript } from 'react-icons/si';
 import { AiOutlineHighlight } from 'react-icons/ai';
+import { GiArtificialHive } from "react-icons/gi";
 
 export default function HomePage() {
     const allProjects = getSortedProjectsData();
@@ -17,11 +19,15 @@ export default function HomePage() {
     const heroContent = getHeroContent();
 
     const topSkills = [
-        { name: "Next.js", icon: <SiNextdotjs className="text-xl md:text-2xl" /> },
-        { name: "React", icon: <FaReact className="text-xl md:text-2xl" /> },
-        { name: "TypeScript", icon: <SiTypescript className="text-xl md:text-2xl" /> },
+        { name: "Java", icon: <FaJava className="text-xl md:text-2xl" /> },
+        { name: "C/C++", icon: <FaCode className="text-xl md:text-2xl" /> },
+        { name: "C#", icon: <FaCode className="text-xl md:text-2xl" /> },
         { name: "Python", icon: <FaPython className="text-xl md:text-2xl" /> },
-        { name: "AI/ML", icon: <AiOutlineHighlight className="text-xl md:text-2xl" /> }
+        { name: "TypeScript", icon: <SiTypescript className="text-xl md:text-2xl" /> },
+        { name: "React", icon: <FaReact className="text-xl md:text-2xl" /> },
+        { name: "React Native", icon: <FaReact className="text-xl md:text-2xl" /> },
+        { name: "Next.js", icon: <SiNextdotjs className="text-xl md:text-2xl" /> },
+        { name: "Unity", icon: <FaUnity className="text-xl md:text-2xl" /> },
     ];
 
     // Define your social/contact links (REPLACE WITH YOUR ACTUAL URLS)
@@ -46,17 +52,17 @@ export default function HomePage() {
                                 priority
                             />
                         </div>
-                        <div className="text-center md:text-left order-2 md:order-none">
-                            <h1 className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-bold mb-4">
+                        <div className="text-center md:text-center order-2 md:order-none">
+                            <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-4">
                                 {heroContent.name}
                             </h1>
-                            <p className="text-2xl sm:text-3xl md:text-4xl text-cyan-400 mb-8">
+                            <p className="text-xl sm:text-2xl md:text-3xl text-cyan-400 mb-8">
                                 {heroContent.title}
                             </p>
                             <p className="text-lg sm:text-xl text-gray-300 mb-10 leading-relaxed max-w-lg md:max-w-none mx-auto md:mx-0">
                                 {heroContent.intro}
                             </p>
-                            <div className="mb-10 flex flex-wrap justify-center md:justify-start gap-3 sm:gap-4">
+                            <div className="mb-10 flex flex-wrap justify-center md:justify-center gap-3 sm:gap-4">
                                 {topSkills.map((skill) => (
                                     <div
                                         key={skill.name}
@@ -69,7 +75,7 @@ export default function HomePage() {
                             </div>
 
                             {/* ===== CORRECTED CTA / SOCIAL LINKS ===== */}
-                            <div className="flex justify-center md:justify-start space-x-6 mt-10"> {/* mt-10 for spacing after the top skills bar */}
+                            <div className="flex justify-center md:justify-center space-x-6 mt-10"> {/* mt-10 for spacing after the top skills bar */}
 
                                 {/* LinkedIn Icon Link */}
                                 {linkedInUrl && linkedInUrl !== "#" && (
@@ -121,10 +127,15 @@ export default function HomePage() {
             <section className="py-20 md:py-28 bg-gray-800 text-center">
                 <div className="max-w-4xl mx-auto px-6 sm:px-8">
                     <h2 className="text-4xl md:text-5xl font-bold mb-8 text-cyan-400">About Me</h2>
-                    <p className="text-xl text-gray-300 leading-relaxed">
-                        Hi, I'm Kevin. I am a dedicated software developer with a strong interest in machine learning and AI.
-                        I thrive on solving complex problems and continuously learning new technologies to create impactful digital experiences.
-                        My journey in tech is driven by a curiosity to understand how things work and a desire to build tools that make a difference.
+                    <p className="text-xl text-gray-300 leading-relaxed mb-4">
+                        Hello! I'm Kevin Lopez, a software engineer with a deep-seated passion for research and development and over six years of experience creating sophisticated applications.
+                        My journey in tech has been driven by a curiosity to solve complex problems, leading me to specialize in IoT ecosystems (Java & C/C++), interactive Game Development (Unity & C#), and the application of Artificial Intelligence.
+                    </p>
+                    <p className="text-xl text-gray-300 leading-relaxed" >
+                        <p className="text-xl text-gray-300 leading-relaxed">
+                            These specializations come to life in my projects,
+                            reflecting my commitment to innovation. I'm driven to continuously learn and apply my skills in software development to create technologies that truly make a difference.
+                        </p>
                     </p>
                 </div>
             </section>
