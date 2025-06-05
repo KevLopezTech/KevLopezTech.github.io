@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import Image from 'next/image';
 import { GalleryItem } from '@/lib/projects';
 import { FaChevronLeft, FaChevronRight, FaPlayCircle } from 'react-icons/fa';
@@ -11,6 +11,25 @@ type ProjectGalleryProps = {
 
 export default function ProjectGallery({ gallery }: ProjectGalleryProps) {
     const [currentIndex, setCurrentIndex] = useState(0);
+
+    // Wrap navigation functions in useCallback
+    const goToPrevious = useCallback(() => {
+        if (gallery.length === 0) return; // Guard against empty gallery
+        const isFirstSlide = currentIndex === 0;
+        const newIndex = isFirstSlide ? gallery.length - 1 : currentIndex - 1;
+        setCurrentIndex(newIndex);
+    }, [currentIndex, gallery.length]); // Dependencies of goToPrevious
+
+    const goToNext = useCallback(() => {
+        if (gallery.length === 0) return; // Guard against empty gallery
+        const isLastSlide = currentIndex === gallery.length - 1;
+        const newIndex = isLastSlide ? 0 : currentIndex + 1;
+        setCurrentIndex(newIndex);
+    }, [currentIndex, gallery.length]); // Dependencies of goToNext
+
+    const goToSlide = (slideIndex: number) => {
+        setCurrentIndex(slideIndex);
+    };
 
     useEffect(() => {
         const handleKeyDown = (event: KeyboardEvent) => {
@@ -25,27 +44,11 @@ export default function ProjectGallery({ gallery }: ProjectGalleryProps) {
         return () => {
             window.removeEventListener('keydown', handleKeyDown);
         };
-    }, [currentIndex, gallery.length]);
+    }, [goToPrevious, goToNext, currentIndex, gallery.length]);
 
     if (!gallery || gallery.length === 0) {
         return null;
     }
-
-    const goToPrevious = () => {
-        const isFirstSlide = currentIndex === 0;
-        const newIndex = isFirstSlide ? gallery.length - 1 : currentIndex - 1;
-        setCurrentIndex(newIndex);
-    };
-
-    const goToNext = () => {
-        const isLastSlide = currentIndex === gallery.length - 1;
-        const newIndex = isLastSlide ? 0 : currentIndex + 1;
-        setCurrentIndex(newIndex);
-    };
-
-    const goToSlide = (slideIndex: number) => {
-        setCurrentIndex(slideIndex);
-    };
 
     const currentItem = gallery[currentIndex];
 

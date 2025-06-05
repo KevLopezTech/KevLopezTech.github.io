@@ -84,7 +84,7 @@ export function getAllProjectSlugs() {
         return [];
     }
     const categories = fs.readdirSync(projectsDirectory);
-    let paths: { params: { slug: string[] } }[] = [];
+    const paths: { params: { slug: string[] } }[] = [];
 
     categories.forEach(category => {
         const categoryPath = path.join(projectsDirectory, category);

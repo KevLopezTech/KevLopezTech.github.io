@@ -42,7 +42,6 @@ export type CertificationItem = {
 
 async function getDataForDirectory<T extends {slug: string}>(
     directoryName: string,
-    itemTypeDefaults: Omit<T, 'slug' | 'contentHtml'> // For type casting frontmatter
 ): Promise<T[]> {
     const fullDirectoryPath = path.join(process.cwd(), 'content', directoryName);
     if (!fs.existsSync(fullDirectoryPath)) {
@@ -82,13 +81,13 @@ async function getDataForDirectory<T extends {slug: string}>(
 
 export async function getExperienceData(): Promise<ExperienceItem[]> {
     // Provide default/expected types for ExperienceItem frontmatter
-    return getDataForDirectory<ExperienceItem>('experience', {} as Omit<ExperienceItem, 'slug' | 'contentHtml'>);
+    return getDataForDirectory<ExperienceItem>('experience');
 }
 
 export async function getEducationData(): Promise<EducationItem[]> {
-    return getDataForDirectory<EducationItem>('education', {} as Omit<EducationItem, 'slug' | 'contentHtml'>);
+    return getDataForDirectory<EducationItem>('education');
 }
 
 export async function getCertificationData(): Promise<CertificationItem[]> {
-    return getDataForDirectory<CertificationItem>('certifications', {} as Omit<CertificationItem, 'slug' | 'contentHtml'>);
+    return getDataForDirectory<CertificationItem>('certifications');
 }
