@@ -3,13 +3,13 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { getSortedProjectsData, type ProjectFrontmatter } from '@/lib/projects';
 import { getHeroContent } from "@/lib/homepage"; // Ensure this path is correct
-import ProjectCard from '@/components/ProjectCard';
 import { skillCategories } from '@/data/skills'; // Ensure this path is correct
 
 // Import icons
 import { FaReact, FaPython, FaLinkedin, FaGithub, FaEnvelope, FaJava, FaUnity } from 'react-icons/fa';
 import { FaCode } from 'react-icons/fa6'
 import { SiNextdotjs, SiTypescript } from 'react-icons/si';
+import FeaturedProjectsCarousel from "@/components/FeaturedProjectsCarousel";
 
 type FeaturedProjectType = { slug: string } & ProjectFrontmatter;
 
@@ -17,13 +17,14 @@ export default function HomePage() {
     const allProjects = getSortedProjectsData();
     const featuredProjects: FeaturedProjectType[] = allProjects.slice(0, 2) as FeaturedProjectType[];
     const heroContent = getHeroContent();
+    const featuredProjectsInCarousel: FeaturedProjectType[] = allProjects.slice(0, 4) as FeaturedProjectType[];
 
     const topSkills = [
         { name: "Java", icon: <FaJava className="text-xl md:text-2xl" /> },
         { name: "C/C++", icon: <FaCode className="text-xl md:text-2xl" /> },
         { name: "C#", icon: <FaCode className="text-xl md:text-2xl" /> },
-        { name: "Python", icon: <FaPython className="text-xl md:text-2xl" /> },
         { name: "TypeScript", icon: <SiTypescript className="text-xl md:text-2xl" /> },
+        { name: "Python", icon: <FaPython className="text-xl md:text-2xl" /> },
         { name: "React", icon: <FaReact className="text-xl md:text-2xl" /> },
         { name: "React Native", icon: <FaReact className="text-xl md:text-2xl" /> },
         { name: "Next.js", icon: <SiNextdotjs className="text-xl md:text-2xl" /> },
@@ -131,11 +132,9 @@ export default function HomePage() {
                         Hello! I&aposm Kevin Lopez, a software engineer with a deep-seated passion for research and development and over six years of experience creating sophisticated applications.
                         My journey in tech has been driven by a curiosity to solve complex problems, leading me to specialize in IoT ecosystems (Java & C/C++), interactive Game Development (Unity & C#), and the application of Artificial Intelligence.
                     </p>
-                    <p className="text-xl text-gray-300 leading-relaxed" >
-                        <p className="text-xl text-gray-300 leading-relaxed">
-                            These specializations come to life in my projects,
-                            reflecting my commitment to innovation. I&aposm driven to continuously learn and apply my skills in software development to create technologies that truly make a difference.
-                        </p>
+                    <p className="text-xl text-gray-300 leading-relaxed">
+                        These specializations come to life in my projects,
+                        reflecting my commitment to innovation. I&aposm driven to continuously learn and apply my skills in software development to create technologies that truly make a difference.
                     </p>
                 </div>
             </section>
@@ -146,11 +145,11 @@ export default function HomePage() {
                     <h2 className="text-4xl md:text-5xl font-bold text-center mb-16">
                         Featured Projects
                     </h2>
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-10 md:gap-12">
-                        {featuredProjects.map((project: FeaturedProjectType) => ( // Use the defined type
-                            <ProjectCard key={project.slug} project={project} />
-                        ))}
-                    </div>
+                    {featuredProjectsInCarousel.length > 0 ? (
+                        <FeaturedProjectsCarousel featuredProjects={featuredProjectsInCarousel} />
+                    ) : (
+                        <p className="text-center text-xl text-gray-400">More projects coming soon!</p>
+                    )}
                     {allProjects.length > featuredProjects.length && (
                         <div className="text-center mt-16">
                             <Link

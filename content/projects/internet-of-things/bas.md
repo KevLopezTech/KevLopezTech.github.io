@@ -18,5 +18,5 @@ The Development Process:
 - Controlled Equipment: Thermostats, HVAC Units, Lighting, Motion, Security, Alarms.
 
 Research & Development:
-- I am constantly upgrading internal custom built software modules to integrate with the latest Niagara releases and framework updates. This involves Java/Kotlin gradle development for the backend, while  UI/UX is utilizing Node.js
+- I lead the ongoing upgrade of internal custom software modules to integrate with the latest Niagara releases and framework updates. This involves Java/Kotlin gradle development for the backend, while UI/UX is utilizing Node.js
 - These modules are then deployed to the team for use in their BAS Software Development.

@@ -24,3 +24,48 @@ body {
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
 }
+
+/* Hide scrollbar for Chrome, Safari and Opera */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+/* Hide scrollbar for IE, Edge and Firefox */
+.no-scrollbar {
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
+}
+
+/* In src/app/globals.css */
+.embla {
+  overflow: hidden;
+  position: relative; /* Good for positioning arrows later */
+}
+.embla__container {
+  display: flex;
+}
+.embla__slide {
+  flex: 0 0 100%; /* Each slide takes full width of the viewport by default */
+  min-width: 0;
+  position: relative; /* For parallax layers */
+}
+.embla__parallax {
+  height: 100%;
+  overflow: hidden; /* Important for parallax effect */
+}
+.embla__parallax__layer {
+  position: relative; /* Or absolute if needed, depending on parallax effect */
+  height: 100%;
+  width: 100%;
+  display: flex; /* To center content if needed */
+  justify-content: center;
+  align-items: center;
+  /* The JS will apply translateX for parallax */
+}
+/* Make images/videos responsive within the layer if not using layout="fill" */
+.embla__parallax__layer img,
+.embla__parallax__layer video {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain; /* Default, can be overridden by component props */
+}

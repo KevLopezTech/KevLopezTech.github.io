@@ -14,6 +14,8 @@ export type ProjectFrontmatter = {
     tags: string[];
     heroImage?: string;
     galleryDirectory?: string; // Path to the gallery image/video folder relative to /public
+    featured?: boolean;
+    featuredOrder?: number;
 };
 
 export type GalleryItem = {
@@ -27,7 +29,23 @@ export type GalleryItem = {
 const projectsDirectory = path.join(process.cwd(), 'content/projects');
 
 // --- Data Fetching Functions ---
+export function getFeaturedProjects(): ({ slug: string } & ProjectFrontmatter)[] {
+    const allProjects = getSortedProjectsData(); // Gets all projects
 
+    const featured = allProjects
+        .filter(project => project.featured === true) // Filter for featured projects
+        .sort((a, b) => {
+            // Sort by featuredOrder if present, otherwise keep original sort (title)
+            if (a.featuredOrder && b.featuredOrder) {
+                return a.featuredOrder - b.featuredOrder;
+            }
+            if (a.featuredOrder) return -1; // Projects with order come first
+            if (b.featuredOrder) return 1;
+            return 0; // Fallback to existing title sort if no order specified
+        });
+
+    return featured;
+}
 /**
  * Gets and sorts metadata for all projects.
  * This function reads the frontmatter from all project markdown files.

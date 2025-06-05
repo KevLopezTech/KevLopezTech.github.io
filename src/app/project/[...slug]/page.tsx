@@ -6,7 +6,7 @@ import {
 } from '@/lib/projects';
 import Link from 'next/link';
 import Image from 'next/image';
-import ProjectGallery from '@/components/ProjectGallery';
+import EmblaProjectGallery from '@/components/EmblaProjectGallery';
 
 // Type for the resolved params after awaiting
 interface ResolvedProjectParams {
@@ -115,7 +115,7 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
                             <h2 className="text-3xl font-semibold text-cyan-400 mb-8 !mt-0">
                                 Gallery
                             </h2>
-                            <ProjectGallery gallery={projectData.gallery} />
+                            <EmblaProjectGallery gallery={projectData.gallery} />
                         </section>
                     )}
                 </article>
