@@ -8,7 +8,6 @@ import {
 } from '@/lib/aboutContent';
 import InfoCard from '@/components/InfoCard';
 
-
 export default async function AboutPage() {
     const heroContent = getHeroContent(); // For profile image and intro
     const experienceItems = await getExperienceData();
