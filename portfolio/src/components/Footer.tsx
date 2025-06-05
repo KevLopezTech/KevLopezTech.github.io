@@ -1,7 +1,7 @@
 import React from 'react';
 import Link from 'next/link';
 import { FaGithub, FaLinkedin, FaEnvelope } from 'react-icons/fa';
-import { getHeroContent, type HeroContent } from '@/lib/homepage';
+import { getHeroContent } from '@/lib/homepage';
 import {JSX} from "react/jsx-dev-runtime";
 
 type SocialLink = {

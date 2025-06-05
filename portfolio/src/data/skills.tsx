@@ -1,18 +1,14 @@
 import React from 'react'; // Import React when using JSX in a .tsx file
 import {
-    FaHtml5, FaCss3Alt, FaJsSquare, FaReact, FaNodeJs, FaPython, FaGitAlt, FaDocker, FaFigma, FaJava, FaNpm, FaYarn, FaGrunt, FaRegBuilding
+    FaHtml5, FaCss3Alt, FaJsSquare, FaReact, FaNodeJs, FaPython, FaGitAlt, FaFigma, FaJava, FaNpm, FaYarn, FaGrunt, FaRegBuilding
 } from 'react-icons/fa';
 import {
     SiTypescript,
     SiNextdotjs,
     SiTailwindcss,
-    SiMongodb,
-    SiPostgresql,
-    SiFirebase,
     SiPandas,
     SiScikitlearn,
     SiAmazonec2,
-    SiGooglecloud,
     SiGradle,
     SiApachemaven,
     SiJetbrains,
@@ -20,8 +16,8 @@ import {
     SiNvidia,
     SiRaspberrypi
 } from 'react-icons/si';
-import { TbBrandVscode, TbSettingsAutomation, TbBrandKotlin } from 'react-icons/tb'; // Tabler icons
-import { AiOutlineSolution, AiOutlineAreaChart } from 'react-icons/ai';
+import { TbBrandKotlin } from 'react-icons/tb'; // Tabler icons
+import { AiOutlineSolution } from 'react-icons/ai';
 import {JSX} from "react/jsx-dev-runtime";
 import {FaCode, FaCircleNodes, FaUnity, FaWindows, FaLinux, FaAndroid} from "react-icons/fa6";
 import { BiNetworkChart } from "react-icons/bi";

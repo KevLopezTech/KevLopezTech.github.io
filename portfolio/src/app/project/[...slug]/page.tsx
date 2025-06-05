@@ -1,6 +1,5 @@
 import {
     getAllProjectSlugs,
-    getProjectPageDetails,
     ProjectFrontmatter,
     GalleryItem,
     getProjectData

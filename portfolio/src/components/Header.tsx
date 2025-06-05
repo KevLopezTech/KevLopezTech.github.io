@@ -7,8 +7,6 @@ import { FiMenu, FiX } from 'react-icons/fi';
 import {
   FaHome,
   FaUserAlt,
-  FaBrain,
-  FaGamepad,
   FaThLarge,
   FaGithub, FaLinkedin, FaEnvelope // Ensure these are here if used in this component (e.g. if props for them are defined)
 } from 'react-icons/fa';

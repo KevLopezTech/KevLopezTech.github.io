@@ -2,16 +2,14 @@ import React from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { getSortedProjectsData } from '@/lib/projects';
-import { getHeroContent, type HeroContent } from "@/lib/homepage"; // Ensure this path is correct
+import { getHeroContent } from "@/lib/homepage"; // Ensure this path is correct
 import ProjectCard from '@/components/ProjectCard';
 import { skillCategories } from '@/data/skills'; // Ensure this path is correct
 
 // Import icons
 import { FaReact, FaPython, FaLinkedin, FaGithub, FaEnvelope, FaJava, FaUnity } from 'react-icons/fa';
-import { FaC, FaCode } from 'react-icons/fa6'
-import { SiNextdotjs, SiC, SiTypescript } from 'react-icons/si';
-import { AiOutlineHighlight } from 'react-icons/ai';
-import { GiArtificialHive } from "react-icons/gi";
+import { FaCode } from 'react-icons/fa6'
+import { SiNextdotjs, SiTypescript } from 'react-icons/si';
 
 export default function HomePage() {
     const allProjects = getSortedProjectsData();

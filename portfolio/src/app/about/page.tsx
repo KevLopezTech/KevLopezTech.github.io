@@ -1,17 +1,12 @@
 import React from 'react';
 import Image from 'next/image';
-import Link from 'next/link'; // In case you want to add any links later
-import { getHeroContent, type HeroContent } from '@/lib/homepage';
+import { getHeroContent } from '@/lib/homepage';
 import {
     getExperienceData,
     getEducationData,
     getCertificationData,
-    type ExperienceItem,
-    type EducationItem,
-    type CertificationItem
 } from '@/lib/aboutContent';
 import InfoCard from '@/components/InfoCard';
-import {skillCategories} from "@/data/skills";
 
 export default async function AboutPage() {
     const heroContent = getHeroContent(); // For profile image and intro
