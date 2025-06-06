@@ -7,6 +7,8 @@ type Project = {
     title: string;
     summary: string;
     heroImage?: string;
+    specialty?: string;
+    tags?: string[];
 };
 
 export default function ProjectCard({ project }: { project: Project }) {
@@ -41,6 +43,22 @@ export default function ProjectCard({ project }: { project: Project }) {
                     >
                         {project.title}
                     </h2>
+                    {/* Specialty & Tags */}
+                    <div className="flex flex-wrap justify-center items-center gap-2 mb-4">
+                        {project.specialty && (
+                            <span className="bg-cyan-700 text-cyan-100 text-xs font-semibold px-2.5 py-1 rounded-full">
+            {project.specialty}
+        </span>
+                        )}
+                        {project.tags?.map(tag => (
+                            <span
+                                key={tag}
+                                className="bg-gray-700 text-gray-300 text-xs font-medium px-2.5 py-1 rounded-full cursor-default transition-all duration-300 ease-in-out hover:bg-cyan-600 hover:text-white hover:scale-105 hover:-translate-y-1"
+                            >
+            {tag}
+        </span>
+                        ))}
+                    </div>
                     <p
                         className="text-gray-300 text-base leading-relaxed flex-grow mb-4"
                     >

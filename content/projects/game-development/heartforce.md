@@ -7,6 +7,8 @@ in game architecture, C# scripting, and debugging."
 tags: ["AI", "C#", "Unity"]
 heroImage: "/images/cover-photos/Heart Force.png"
 galleryDirectory: "/images/game-dev/heartforce"
+featured: true
+featuredOrder: 1
 ---
 
 Heart Force is a complex 3d Unity game I am currently developing. The game consists of custom scripts I developed and integrating them with Unity's Frameworks and APIs to provide Scene Management, Character Selection, Main Menu, Gameplay Programming, AI Pathfinding and Combat, Input System, Weapon System, and more.

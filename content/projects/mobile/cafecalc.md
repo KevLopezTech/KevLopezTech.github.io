@@ -5,6 +5,8 @@ summary: "Developed a simple and modern tip calculator. Planned to release on Go
 tags: ["React Native", "Android", "iOS"]
 #heroImage: "/images/cover-photos/BuildingAutomationSystems.png"
 #galleryDirectory: "/images/stellardex"
+featured: true
+featuredOrder: 3
 ---
 
 Details coming soon.

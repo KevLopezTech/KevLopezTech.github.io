@@ -5,6 +5,8 @@ summary: "The Building Automation System (BAS) is a Full Stack IoT Application d
 tags: ["Java", "C++", "Gradle", "Embedded Systems"]
 heroImage: "/images/cover-photos/BuildingAutomationSystems.png"
 galleryDirectory: "images/bas"
+featured: true
+featuredOrder: 4
 ---
 
 The Building Automation System (BAS) is a Full-Stack IoT Application developed to provide end users real-time control over their buildings via Web Browser. This system involves a network of smart devices that control and monitor a building's environment.

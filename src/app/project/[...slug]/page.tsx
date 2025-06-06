@@ -65,9 +65,12 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
                         )}
                         <div className="flex flex-wrap gap-2">
                             {projectData.tags.map(tag => (
-                                <span key={tag} className="bg-gray-700 text-gray-300 text-sm font-medium px-3 py-1 rounded-full">
-                                    {tag}
-                                </span>
+                                <span
+                                    key={tag}
+                                    className="bg-gray-700 text-gray-300 text-sm font-medium px-3 py-1 rounded-full transition-all duration-300 ease-in-out hover:bg-cyan-600 hover:text-white hover:scale-105 hover:-translate-y-1 cursor-default"
+                                >
+                                {tag}
+                                 </span>
                             ))}
                         </div>
                     </div>

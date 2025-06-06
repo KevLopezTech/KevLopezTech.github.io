@@ -15,9 +15,25 @@ type FeaturedProjectType = { slug: string } & ProjectFrontmatter;
 
 export default function HomePage() {
     const allProjects = getSortedProjectsData();
-    const featuredProjects: FeaturedProjectType[] = allProjects.slice(0, 2) as FeaturedProjectType[];
+
+    console.log("--- DEBUGGING FEATURED PROJECTS ---");
+    // Let's inspect the raw data of a few projects to see what the 'featured' tag looks like
+    console.log(
+        "Raw data check:",
+        allProjects.slice(0, 5).map(p => ({ title: p.title, featured: p.featured }))
+    );
+
+    const featuredProjectsInCarousel: FeaturedProjectType[] = allProjects
+        .filter(project => project.featured === true)
+        .sort((a, b) => (a.featuredOrder || 999) - (b.featuredOrder || 999));
+
+    console.log(
+        "Projects remaining after filter:",
+        featuredProjectsInCarousel.map(p => ({ title: p.title, featured: p.featured }))
+    );
+    console.log("--- END OF DEBUGGING ---");
+
     const heroContent = getHeroContent();
-    const featuredProjectsInCarousel: FeaturedProjectType[] = allProjects.slice(0, 4) as FeaturedProjectType[];
 
     const topSkills = [
         { name: "Java", icon: <FaJava className="text-xl md:text-2xl" /> },
@@ -150,7 +166,7 @@ export default function HomePage() {
                     ) : (
                         <p className="text-center text-xl text-gray-400">More projects coming soon!</p>
                     )}
-                    {allProjects.length > featuredProjects.length && (
+                    {allProjects.length > featuredProjectsInCarousel.length && (
                         <div className="text-center mt-16">
                             <Link
                                 href="/projects"
@@ -177,7 +193,7 @@ export default function HomePage() {
                                     {category.skills.map((skill) => (
                                         <span
                                             key={skill.name}
-                                            className="flex items-center bg-gray-700 text-cyan-300 text-base font-medium px-4 py-2 rounded-full hover:bg-cyan-700 hover:text-white transition-colors duration-200"
+                                            className="flex items-center bg-gray-700 text-cyan-300 text-base font-medium px-4 py-2 rounded-full cursor-default transition-all duration-300 ease-in-out hover:bg-cyan-600 hover:text-white hover:scale-105 hover:-translate-y-1"
                                         >
                                             <span className="mr-2 text-xl">{skill.icon}</span>
                                             {skill.name}
