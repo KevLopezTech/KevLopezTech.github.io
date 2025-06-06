@@ -1,10 +1,10 @@
 ---
 title: "AI-Driven NVIDIA Robot"
-specialty: "Artificial Intelligence"
+specialty: "Robotics"
 summary: "Designed and built a self-driving robot equipped with camera vision, leveraging computer vision and
 localization AI techniques to automate driving. Utilized Linux, Arduino, NVIDIA Jetson Platform, and Raspberry Pi."
-tags: ["AI", "Robotics", "Embedded Systems"]
-heroImage: "/images/Jetson TX1.png"
+tags: ["AI", "Robotics", "Computer Vision", "Embedded Systems" ]
+heroImage: "/images/cover-photos/Jetson TX1.png"
 galleryDirectory: []
 ---
 

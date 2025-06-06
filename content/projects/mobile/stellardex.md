@@ -1,10 +1,10 @@
 ---
-title: "StellarDex"
-specialty: "Mobile Apps"
+title: "Mobile Data Repository"
+specialty: "Mobile App"
 summary: "Developed a cross-platform mobile application using React Native, JavaScript, TypeScript,
 demonstrating robust API integration and implementing asynchronous data fetching from a large public RESTful API to populate
 a dynamic catalog of over 1000 unique entries."
-tags: ["React Native", "Android", "iOS", "Mobile", "App"]
+tags: ["React Native", "Android", "iOS"]
 #heroImage: "/images/cover-photos/BuildingAutomationSystems.png"
 galleryDirectory: "/images/stellardex"
 ---

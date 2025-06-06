@@ -2,24 +2,23 @@ import { getSortedProjectsData, getAllCategories, ProjectFrontmatter } from '@/l
 import Link from 'next/link';
 import ProjectCard from '@/components/ProjectCard';
 import { getCategoryDisplayName } from '@/lib/categoryDisplayMap';
+import { categoryTagMap } from '@/lib/tagMap'; // << NEW: Import the tag map
 
 type ProjectData = { slug: string } & ProjectFrontmatter;
 
-// Type for the resolved params after awaiting
 interface ResolvedCategoryParams {
-    category?: string[]; // category is an optional array of strings for [[...category]]
+    category?: string[];
 }
 
-// Type for the props received by the page component
 interface ProjectsListingPageProps {
     params: Promise<ResolvedCategoryParams>;
 }
 
 export async function generateStaticParams(): Promise<ResolvedCategoryParams[]> {
-    const categories = getAllCategories(); // This returns [{ category: 'ai' }, { category: 'web-dev' }, ...]
+    const categories = getAllCategories();
     return [
-        { category: [] }, // Represents the /projects route (params.category will be an empty array)
-        ...categories.map(cat => ({ category: [cat.category] })) // Represents /projects/ai (params.category will be ['ai'])
+        { category: [] },
+        ...categories.map(cat => ({ category: [cat.category] }))
     ];
 }
 
@@ -29,9 +28,8 @@ const normalizeString = (str: string | undefined): string => {
 };
 
 export default async function ProjectsListingPage({ params }: ProjectsListingPageProps) {
-    // THE FIX: Await the params Promise to get the actual parameters
     const resolvedParams = await params;
-    const currentCategorySlug = resolvedParams.category?.[0]; // Get the first segment if it exists
+    const currentCategorySlug = resolvedParams.category?.[0];
 
     const allProjects = getSortedProjectsData() as ProjectData[];
 
@@ -39,35 +37,55 @@ export default async function ProjectsListingPage({ params }: ProjectsListingPag
     let pageTitle: string;
     let pageDescription: string;
 
-    // Console logs for debugging (can be removed once confirmed working)
-    console.log("-----------------------------------------------------");
-    console.log("DEBUGGING PROJECTS LISTING PAGE (after await):", `/projects/${currentCategorySlug || 'all'}`);
-    console.log("1. currentCategorySlug (after await):", currentCategorySlug);
-    console.log("2. Total projects fetched:", allProjects.length);
-
     if (currentCategorySlug) {
         const normalizedSlugToCompare = normalizeString(currentCategorySlug);
-        filteredProjects = allProjects.filter(project => {
-            if (!project.specialty) return false;
-            const normalizedSpecialty = normalizeString(project.specialty);
-            return normalizedSpecialty === normalizedSlugToCompare;
-        });
         pageTitle = getCategoryDisplayName(currentCategorySlug);
         pageDescription = `A collection of my projects related to ${pageTitle}.`;
+
+        // 1. Find the correct group of search tags.
+        // Instead of a direct lookup, we find which category group our current slug belongs to.
+        let searchTagsForCategory: string[] = [normalizedSlugToCompare]; // Default to the slug itself
+
+        for (const groupKey in categoryTagMap) {
+            const normalizedGroupTags = categoryTagMap[groupKey].map(normalizeString);
+            if (normalizedGroupTags.includes(normalizedSlugToCompare)) {
+                // Success! The current slug (e.g., "machinelearning") was found in a group (the "ai" group).
+                // We'll use the full list of tags from that group for our search.
+                searchTagsForCategory = categoryTagMap[groupKey];
+                break; // Stop searching once we've found the correct group
+            }
+        }
+
+        const normalizedSearchTags = searchTagsForCategory.map(normalizeString);
+
+
+        // 2. Filter projects using the full, correct list of search tags.
+        filteredProjects = allProjects.filter(project => {
+            // Check specialty
+            const normalizedSpecialty = normalizeString(project.specialty);
+            if (normalizedSearchTags.includes(normalizedSpecialty)) {
+                return true;
+            }
+
+            // Check tags array
+            if (project.tags && Array.isArray(project.tags)) {
+                return project.tags.some(tag =>
+                    normalizedSearchTags.includes(normalizeString(tag))
+                );
+            }
+
+            return false;
+        });
+
+        // --- END OF CORRECTED LOGIC ---
+
     } else {
-        // This is the "All Projects" page (currentCategorySlug is undefined)
+        // This is the "All Projects" page
         filteredProjects = allProjects;
         pageTitle = "All Projects";
         pageDescription = "Here is a collection of all my work.";
     }
 
-    console.log("3. Filtered projects count:", filteredProjects.length);
-    if (filteredProjects.length > 0 && currentCategorySlug) {
-        console.log("   Example filtered project titles:", filteredProjects.slice(0,3).map(p=>p.title).join(', '));
-    } else if (allProjects.length > 0 && currentCategorySlug) {
-        console.log("   No projects matched the filter criteria for normalized slug:", normalizeString(currentCategorySlug));
-    }
-    console.log("-----------------------------------------------------");
 
     return (
         <main className="p-4 sm:p-8 bg-gray-900 text-white min-h-screen">

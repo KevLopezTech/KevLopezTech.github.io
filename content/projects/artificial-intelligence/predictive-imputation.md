@@ -1,10 +1,10 @@
 ---
 title: "Predictive Imputation"
-specialty: "Artificial Intelligence"
+specialty: "Machine Learning"
 summary: "Constructed a tool for data classification and imputation, predicting new data through the
 implementation of machine learning algorithms including K-means, basic-means, linear regression, and random forests, using
 Python libraries (scikit-learn, pandas)."
-tags: ["Machine Learning", "AI", "Python", "scikit-learn", "pandas"]
+tags: ["AI", "Python", "scikit-learn", "pandas"]
 heroImage: "/images/cover-photos/Missing Value Estimation.png"
 galleryDirectory: "/images/ai-ml/predictiveimputation"
 ---
