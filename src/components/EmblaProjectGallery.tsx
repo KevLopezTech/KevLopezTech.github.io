@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useCallback, useEffect, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useRef } from 'react';
 import {
     EmblaCarouselType as EmblaApiType,
     EmblaEventType,
@@ -18,8 +18,6 @@ import {
     usePrevNextButtons
 } from './EmblaCarouselArrowButtons';
 import { DotButton, useDotButton } from './EmblaCarouselDotButtons';
-import { FiX } from 'react-icons/fi';
-import { motion, AnimatePresence } from 'framer-motion';
 
 const TWEEN_FACTOR_BASE = 0.2; // Parallax intensity factor from your example
 
@@ -45,8 +43,6 @@ export default function EmblaProjectGallery({ gallery, options: propOptions }: P
     const emblaHookResult: [EmblaViewportRefType, EmblaApiType | undefined] = useEmblaCarousel(mergedOptions, [Autoplay(autoplayOptions)]);
     const emblaRef = emblaHookResult[0];
     const emblaApi = emblaHookResult[1];
-
-    const [lightboxSrc, setLightboxSrc] = useState<string | null>(null);
 
     const tweenFactor = useRef(0);
     const tweenNodes = useRef<HTMLElement[]>([]);
