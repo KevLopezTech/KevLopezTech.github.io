@@ -5,6 +5,19 @@ graduationDate: "May 2018"
 logo: "/images/about/georgia-state-university-1.png"
 location: "Atlanta, GA"
 ---
-- Relevant Coursework: Advanced Algorithms, Machine Learning, Data Structures, Software Engineering.
-- Dean's List (2022, 2023).
-- Capstone Project: AI-Powered Recommendation System.
+
+Activities and societies:
+- Association for Computing Machinery (ACM)
+
+Relevant course work:
+- Software Development & Engineering
+- Embedded Systems
+- Robotics
+- Artificial Intelligence
+- Machine Learning
+- Game Design and Development
+- Computer Networks
+- Operating Systems
+- Algorithm Design
+- Calculus I, II, III
+- Physics I, II
