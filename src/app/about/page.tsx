@@ -45,7 +45,11 @@ export default async function AboutPage() {
                             <p className="text-lg lg:text-xl text-gray-300 leading-relaxed">
                                 {heroContent.intro}
                             </p>
+                            <div className="my-8 h-px w-full bg-gray-600 hidden sm:block"></div>
                             {/* You can add more paragraphs here for a more detailed "About Me" narrative */}
+                            <p className="text-lg lg:text-xl text-gray-300 leading-relaxed">
+                                {heroContent.detailedIntro}
+                            </p>
                         </div>
                     </div>
                 </section>

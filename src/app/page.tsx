@@ -6,7 +6,7 @@ import { getHeroContent } from "@/lib/homepage"; // Ensure this path is correct
 import { skillCategories } from '@/data/skills'; // Ensure this path is correct
 
 // Import icons
-import { FaReact, FaPython, FaLinkedin, FaGithub, FaEnvelope, FaJava, FaUnity } from 'react-icons/fa';
+import { FaReact, FaPython, FaLinkedin, FaGithub, FaEnvelope, FaJava, FaUnity, FaDownload } from 'react-icons/fa';
 import { FaCode } from 'react-icons/fa6'
 import { SiNextdotjs, SiTypescript } from 'react-icons/si';
 import FeaturedProjectsCarousel from "@/components/FeaturedProjectsCarousel";
@@ -133,6 +133,27 @@ export default function HomePage() {
                                         <FaEnvelope size={32} /> {/* Adjust size as needed */}
                                     </a>
                                 )}
+
+                                {/* Optional Separator */}
+                                <div className="h-8 w-px bg-gray-600 hidden sm:block"></div>
+
+                                {/* Download Buttons */}
+                                <a
+                                    href="/documents/KevinLopez-Resume.pdf" // <-- REPLACE with your file name
+                                    download
+                                    className="inline-flex items-center text-sm font-semibold border-2 border-gray-600 hover:border-cyan-400 text-gray-200 hover:text-cyan-400 py-2 px-5 rounded-lg transition-colors duration-300"
+                                >
+                                    <FaDownload className="mr-2" />
+                                    Download Resume
+                                </a>
+                                <a
+                                    href="/documents/CoverLetter_KevinLopez.pdf" // <-- REPLACE with your file name
+                                    download
+                                    className="inline-flex items-center text-sm font-semibold border-2 border-gray-600 hover:border-cyan-400 text-gray-200 hover:text-cyan-400 py-2 px-5 rounded-lg transition-colors duration-300"
+                                >
+                                    <FaDownload className="mr-2" />
+                                    Download CV
+                                </a>
                             </div>
                             {/* ===== END OF CORRECTED CTA / SOCIAL LINKS ===== */}
                         </div>

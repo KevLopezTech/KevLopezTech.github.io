@@ -8,6 +8,7 @@ export type HeroContent = {
     name: string;
     title: string;
     intro: string;
+    detailedIntro?: string;
     profileImage: string;
     linkedInUrl?: string;
     githubUrl?: string;

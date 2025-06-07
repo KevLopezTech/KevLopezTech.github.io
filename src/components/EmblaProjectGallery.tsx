@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useCallback, useEffect, useRef } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import {
     EmblaCarouselType as EmblaApiType,
     EmblaEventType,
@@ -18,6 +18,8 @@ import {
     usePrevNextButtons
 } from './EmblaCarouselArrowButtons';
 import { DotButton, useDotButton } from './EmblaCarouselDotButtons';
+import { FiX } from 'react-icons/fi';
+import { motion, AnimatePresence } from 'framer-motion';
 
 const TWEEN_FACTOR_BASE = 0.2; // Parallax intensity factor from your example
 
@@ -43,6 +45,8 @@ export default function EmblaProjectGallery({ gallery, options: propOptions }: P
     const emblaHookResult: [EmblaViewportRefType, EmblaApiType | undefined] = useEmblaCarousel(mergedOptions, [Autoplay(autoplayOptions)]);
     const emblaRef = emblaHookResult[0];
     const emblaApi = emblaHookResult[1];
+
+    const [lightboxSrc, setLightboxSrc] = useState<string | null>(null);
 
     const tweenFactor = useRef(0);
     const tweenNodes = useRef<HTMLElement[]>([]);
@@ -127,6 +131,39 @@ export default function EmblaProjectGallery({ gallery, options: propOptions }: P
 const { selectedIndex, scrollSnaps, onDotButtonClick } = useDotButton(emblaApi);
 const { prevBtnDisabled, nextBtnDisabled, onPrevButtonClick, onNextButtonClick } = usePrevNextButtons(emblaApi);
 
+    const onVideoPlay = useCallback(() => {
+        // Get the autoplay plugin instance
+        const autoplay = emblaApi?.plugins()?.autoplay;
+        if (autoplay) {
+            // Stop the autoplay when a video is played
+            autoplay.stop();
+            console.log("Autoplay stopped for video.");
+        }
+    }, [emblaApi]);
+
+    const onVideoPauseOrEnd = useCallback(() => {
+        const autoplay = emblaApi?.plugins()?.autoplay;
+        if (autoplay) {
+            // Resume autoplay when a video is paused or ends
+            autoplay.play();
+            console.log("Autoplay resumed.");
+        }
+    }, [emblaApi]);
+
+    // Effect to ensure autoplay restarts when user navigates away from a video slide
+    useEffect(() => {
+        if (emblaApi) {
+            const autoplay = emblaApi.plugins().autoplay;
+            const onSelect = () => {
+                if (autoplay && !autoplay.isPlaying()) {
+                    autoplay.play();
+                }
+            };
+            emblaApi.on('select', onSelect);
+            return () => { emblaApi.off('select', onSelect) };
+        }
+    }, [emblaApi]);
+
     if (!gallery || gallery.length === 0) {
         return <p className="text-center text-gray-400">Gallery is empty.</p>;
     }
@@ -154,6 +191,9 @@ const { prevBtnDisabled, nextBtnDisabled, onPrevButtonClick, onNextButtonClick }
                                         preload="metadata"
                                         playsInline
                                         autoPlay={false}
+                                        onPlay={onVideoPlay}
+                                        onPause={onVideoPauseOrEnd}
+                                        onEnded={onVideoPauseOrEnd}
                                     >
                                         <source src={item.src} type={`video/${item.src.split('.').pop()}`} />
                                         Your browser does not support the video tag.

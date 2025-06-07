@@ -14,8 +14,3 @@ leveraging Java and a component-based IoT core framework for efficient developme
 clients and internal specialists.
 - Researched and developed reusable software components for the core platform (notifications, diagnostics, data management),
 which were subsequently integrated by the specialist team into client-facing solutions.
-- Architected network interconnectivity (TCP/IP, UDP/IP, HTTP/HTTPS, Ethernet) for a large-scale, diverse IoT ecosystem
-encompassing 50+ product lines and supporting hundreds to thousands of end devices.
-- Concurrently developed and drove 5-10 end-to-end software projects through requirements analysis, design reviews,
-implementation, and testing phases.
-- Leveraged CI/CD methodologies for automated build, testing, and deployment of complex embedded/IoT software applications.

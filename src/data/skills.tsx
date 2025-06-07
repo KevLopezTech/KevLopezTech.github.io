@@ -1,6 +1,6 @@
 import React from 'react'; // Import React when using JSX in a .tsx file
 import {
-    FaHtml5, FaCss3Alt, FaJsSquare, FaReact, FaNodeJs, FaPython, FaGitAlt, FaFigma, FaJava, FaNpm, FaYarn, FaGrunt, FaRegBuilding
+    FaHtml5, FaCss3Alt, FaJsSquare, FaReact, FaNodeJs, FaPython, FaGitAlt, FaJava, FaNpm, FaYarn, FaGrunt, FaRegBuilding
 } from 'react-icons/fa';
 import {
     SiTypescript,
@@ -14,11 +14,13 @@ import {
     SiJetbrains,
     SiArduino,
     SiNvidia,
-    SiRaspberrypi
+    SiRaspberrypi,
+    SiCanva,
+    SiFigma
 } from 'react-icons/si';
 import { TbBrandKotlin } from 'react-icons/tb'; // Tabler icons
 import { AiOutlineSolution } from 'react-icons/ai';
-import {JSX} from "react/jsx-dev-runtime";
+import { JSX } from "react/jsx-dev-runtime";
 import {FaCode, FaCircleNodes, FaUnity, FaWindows, FaLinux, FaAndroid} from "react-icons/fa6";
 import { BiNetworkChart } from "react-icons/bi";
 import { IoLanguage } from "react-icons/io5";
@@ -118,7 +120,8 @@ export const skillCategories: SkillCategory[] = [
             { name: "Windows", icon: <FaWindows size={20} /> },
             { name: "Linux", icon: <FaLinux size={20} /> },
             { name: "Android", icon: <FaAndroid size={20} /> },
-            { name: "Figma", icon: <FaFigma size={20} /> }
+            { name: "Canva", icon: <SiCanva size={20} /> },
+            { name: "Figma", icon: <SiFigma size={20} /> }
         ]
     },
     {
