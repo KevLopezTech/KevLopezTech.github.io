@@ -42,7 +42,6 @@ export default function HomePage() {
         { name: "TypeScript", icon: <SiTypescript className="text-xl md:text-2xl" /> },
         { name: "Python", icon: <FaPython className="text-xl md:text-2xl" /> },
         { name: "React", icon: <FaReact className="text-xl md:text-2xl" /> },
-        { name: "React Native", icon: <FaReact className="text-xl md:text-2xl" /> },
         { name: "Next.js", icon: <SiNextdotjs className="text-xl md:text-2xl" /> },
         { name: "Unity", icon: <FaUnity className="text-xl md:text-2xl" /> },
     ];
@@ -91,71 +90,65 @@ export default function HomePage() {
                                 ))}
                             </div>
 
-                            {/* ===== CORRECTED CTA / SOCIAL LINKS ===== */}
-                            <div className="flex justify-center md:justify-center space-x-6 mt-10"> {/* mt-10 for spacing after the top skills bar */}
+                            <div className="flex flex-col items-center justify-center gap-y-6 mt-10">
+                                {/* Social Icons Row */}
+                                <div className="flex items-center space-x-6">
+                                    {linkedInUrl && linkedInUrl !== "#" && (
+                                        <a
+                                            href={linkedInUrl}
+                                            target="_blank"
+                                            rel="noopener noreferrer"
+                                            aria-label="LinkedIn Profile"
+                                            className="text-gray-300 hover:text-cyan-400 transition-colors duration-300"
+                                            title="LinkedIn"
+                                        >
+                                            <FaLinkedin size={36} />
+                                        </a>
+                                    )}
+                                    {githubUrl && githubUrl !== "#" && (
+                                        <a
+                                            href={githubUrl}
+                                            target="_blank"
+                                            rel="noopener noreferrer"
+                                            aria-label="GitHub Profile"
+                                            className="text-gray-300 hover:text-cyan-400 transition-colors duration-300"
+                                            title="GitHub"
+                                        >
+                                            <FaGithub size={36} />
+                                        </a>
+                                    )}
+                                    {emailAddress && emailAddress !== "contact@example.com" && (
+                                        <a
+                                            href={`mailto:${emailAddress}`}
+                                            aria-label="Send an Email"
+                                            className="text-gray-300 hover:text-cyan-400 transition-colors duration-300"
+                                            title="Email Me"
+                                        >
+                                            <FaEnvelope size={36} />
+                                        </a>
+                                    )}
+                                </div>
 
-                                {/* LinkedIn Icon Link */}
-                                {linkedInUrl && linkedInUrl !== "#" && (
+                                {/* Download Buttons Row */}
+                                <div className="flex flex-col sm:flex-row items-center gap-4">
                                     <a
-                                        href={linkedInUrl}
-                                        target="_blank"
-                                        rel="noopener noreferrer"
-                                        aria-label="LinkedIn Profile"
-                                        className="text-gray-300 hover:text-cyan-400 transition-colors duration-300"
-                                        title="LinkedIn"
+                                        href="/documents/KevinLopez-Resume.pdf"
+                                        download
+                                        className="inline-flex items-center text-sm font-semibold border-2 border-gray-600 hover:border-cyan-400 text-gray-200 hover:text-cyan-400 py-2 px-5 rounded-lg transition-colors duration-300 w-full justify-center sm:w-auto"
                                     >
-                                        <FaLinkedin size={32} /> {/* Adjust size as needed */}
+                                        <FaDownload className="mr-2" />
+                                        Resume
                                     </a>
-                                )}
-
-                                {/* GitHub Icon Link */}
-                                {githubUrl && githubUrl !== "#" && (
                                     <a
-                                        href={githubUrl}
-                                        target="_blank"
-                                        rel="noopener noreferrer"
-                                        aria-label="GitHub Profile"
-                                        className="text-gray-300 hover:text-cyan-400 transition-colors duration-300"
-                                        title="GitHub"
+                                        href="/documents/CoverLetter_KevinLopez.pdf" // <-- REPLACE with your file name
+                                        download
+                                        className="inline-flex items-center text-sm font-semibold border-2 border-gray-600 hover:border-cyan-400 text-gray-200 hover:text-cyan-400 py-2 px-5 rounded-lg transition-colors duration-300 w-full justify-center sm:w-auto"
                                     >
-                                        <FaGithub size={32} /> {/* Adjust size as needed */}
+                                        <FaDownload className="mr-2" />
+                                        CV
                                     </a>
-                                )}
-
-                                {/* Email Icon Link */}
-                                {emailAddress && emailAddress !== "contact@example.com" && (
-                                    <a
-                                        href={`mailto:${emailAddress}`}
-                                        aria-label="Send an Email"
-                                        className="text-gray-300 hover:text-cyan-400 transition-colors duration-300"
-                                        title="Email Me"
-                                    >
-                                        <FaEnvelope size={32} /> {/* Adjust size as needed */}
-                                    </a>
-                                )}
-
-                                {/* Optional Separator */}
-                                <div className="h-8 w-px bg-gray-600 hidden sm:block"></div>
-
-                                {/* Download Buttons */}
-                                <a
-                                    href="/documents/KevinLopez-Resume.pdf" // <-- REPLACE with your file name
-                                    download
-                                    className="inline-flex items-center text-sm font-semibold border-2 border-gray-600 hover:border-cyan-400 text-gray-200 hover:text-cyan-400 py-2 px-5 rounded-lg transition-colors duration-300"
-                                >
-                                    <FaDownload className="mr-2" />
-                                    Resume
-                                </a>
-                                <a
-                                    href="/documents/CoverLetter_KevinLopez.pdf" // <-- REPLACE with your file name
-                                    download
-                                    className="inline-flex items-center text-sm font-semibold border-2 border-gray-600 hover:border-cyan-400 text-gray-200 hover:text-cyan-400 py-2 px-5 rounded-lg transition-colors duration-300"
-                                >
-                                    <FaDownload className="mr-2" />
-                                    CV
-                                </a>
+                                </div>
                             </div>
-                            {/* ===== END OF CORRECTED CTA / SOCIAL LINKS ===== */}
                         </div>
                     </div>
                 </div>
@@ -166,12 +159,12 @@ export default function HomePage() {
                 <div className="max-w-4xl mx-auto px-6 sm:px-8">
                     <h2 className="text-4xl md:text-5xl font-bold mb-8 text-cyan-400">About Me</h2>
                     <p className="text-xl text-gray-300 leading-relaxed mb-4">
-                        Hello! I&aposm Kevin Lopez, a software engineer with a deep-seated passion for research and development and over six years of experience creating sophisticated applications.
+                        Hello! I'm Kevin Lopez, a software engineer with a deep-seated passion for research and development and over six years of experience creating sophisticated applications.
                         My journey in tech has been driven by a curiosity to solve complex problems, leading me to specialize in IoT ecosystems (Java & C/C++), interactive Game Development (Unity & C#), and the application of Artificial Intelligence.
                     </p>
                     <p className="text-xl text-gray-300 leading-relaxed">
                         These specializations come to life in my projects,
-                        reflecting my commitment to innovation. I&aposm driven to continuously learn and apply my skills in software development to create technologies that truly make a difference.
+                        reflecting my commitment to innovation. I'm driven to continuously learn and apply my skills in software development to create technologies that truly make a difference.
                     </p>
                 </div>
             </section>
