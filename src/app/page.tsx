@@ -144,7 +144,7 @@ export default function HomePage() {
                                     className="inline-flex items-center text-sm font-semibold border-2 border-gray-600 hover:border-cyan-400 text-gray-200 hover:text-cyan-400 py-2 px-5 rounded-lg transition-colors duration-300"
                                 >
                                     <FaDownload className="mr-2" />
-                                    Download Resume
+                                    Resume
                                 </a>
                                 <a
                                     href="/documents/CoverLetter_KevinLopez.pdf" // <-- REPLACE with your file name
@@ -152,7 +152,7 @@ export default function HomePage() {
                                     className="inline-flex items-center text-sm font-semibold border-2 border-gray-600 hover:border-cyan-400 text-gray-200 hover:text-cyan-400 py-2 px-5 rounded-lg transition-colors duration-300"
                                 >
                                     <FaDownload className="mr-2" />
-                                    Download CV
+                                    CV
                                 </a>
                             </div>
                             {/* ===== END OF CORRECTED CTA / SOCIAL LINKS ===== */}
