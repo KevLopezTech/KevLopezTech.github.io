@@ -90,7 +90,7 @@ export default function HomePage() {
                                 ))}
                             </div>
 
-                            <div className="flex flex-col items-center justify-center gap-y-6 mt-10">
+                            <div className="flex flex-col md:flex-row items-center justify-center gap-6 mt-10">
                                 {/* Social Icons Row */}
                                 <div className="flex items-center space-x-6">
                                     {linkedInUrl && linkedInUrl !== "#" && (
@@ -128,6 +128,11 @@ export default function HomePage() {
                                         </a>
                                     )}
                                 </div>
+
+                                {/* Dividers */}
+                                <div className="w-1/2 h-px bg-gray-600 md:hidden"></div>
+
+                                <div className="h-8 w-px bg-gray-600 hidden md:block"></div>
 
                                 {/* Download Buttons Row */}
                                 <div className="flex flex-col sm:flex-row items-center gap-4">
