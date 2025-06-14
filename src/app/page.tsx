@@ -164,12 +164,12 @@ export default function HomePage() {
                 <div className="max-w-4xl mx-auto px-6 sm:px-8">
                     <h2 className="text-4xl md:text-5xl font-bold mb-8 text-cyan-400">About Me</h2>
                     <p className="text-xl text-gray-300 leading-relaxed mb-4">
-                        Hello! I'm Kevin Lopez, a software engineer with a deep-seated passion for research and development and over six years of experience creating sophisticated applications.
+                        Hello! I&aposm Kevin Lopez, a software engineer with a deep-seated passion for research and development and over six years of experience creating sophisticated applications.
                         My journey in tech has been driven by a curiosity to solve complex problems, leading me to specialize in IoT ecosystems (Java & C/C++), interactive Game Development (Unity & C#), and the application of Artificial Intelligence.
                     </p>
                     <p className="text-xl text-gray-300 leading-relaxed">
                         These specializations come to life in my projects,
-                        reflecting my commitment to innovation. I'm driven to continuously learn and apply my skills in software development to create technologies that truly make a difference.
+                        reflecting my commitment to innovation. I&aposm driven to continuously learn and apply my skills in software development to create technologies that truly make a difference.
                     </p>
                 </div>
             </section>
